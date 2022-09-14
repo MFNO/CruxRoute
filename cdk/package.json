@@ -13,10 +13,11 @@
     "cdk:deploy": "cdk deploy --profile CruxRouteAdmin"
   },
   "devDependencies": {
-    "aws-cdk": "2.41.0",
+    "@types/aws-lambda": "^8.10.104",
     "@types/jest": "^27.5.2",
     "@types/node": "10.17.27",
     "@types/prettier": "2.6.0",
+    "aws-cdk": "2.41.0",
     "jest": "^27.5.1",
     "ts-jest": "^27.1.4",
     "ts-node": "^10.9.1",
@@ -26,7 +27,9 @@
     "@aws-cdk/aws-apigatewayv2-alpha": "^2.41.0-alpha.0",
     "@aws-cdk/aws-apigatewayv2-authorizers-alpha": "^2.41.0-alpha.0",
     "@aws-cdk/aws-apigatewayv2-integrations-alpha": "^2.41.0-alpha.0",
+    "@aws-sdk/client-dynamodb": "^3.170.0",
     "aws-cdk-lib": "2.41.0",
-    "constructs": "^10.0.0"
+    "constructs": "^10.0.0",
+    "dynamodb-onetable": "^2.5.0"
   }
 }

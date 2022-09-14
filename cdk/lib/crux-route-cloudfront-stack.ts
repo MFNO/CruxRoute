@@ -19,7 +19,7 @@ import {
   Distribution,
 } from "aws-cdk-lib/aws-cloudfront";
 
-export class DeployAppToS3AndCloudfrontStack extends Stack {
+export class CreateCruxRouteCloudfrontStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
 
