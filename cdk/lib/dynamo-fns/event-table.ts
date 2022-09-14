@@ -7,8 +7,8 @@ const client = new Dynamo({ client: new DynamoDBClient({}) });
 const schema = {
   indexes: {
     primary: {
-      hash: "pk",
-      sort: "sk",
+      hash: "id",
+      sort: "date",
     },
   },
   models: {
@@ -17,14 +17,6 @@ const schema = {
         required: true,
         type: "string",
         value: "event",
-      },
-      pk: {
-        type: "string",
-        value: "id",
-      },
-      sk: {
-        type: "string",
-        value: "${date}",
       },
       id: {
         required: true,

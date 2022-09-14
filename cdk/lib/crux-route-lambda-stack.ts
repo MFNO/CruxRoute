@@ -28,9 +28,9 @@ export class CreateCruxRouteLambdaStack extends Stack {
 
     const table = new Table(this, id, {
       billingMode: BillingMode.PROVISIONED,
-      partitionKey: { name: "pk", type: AttributeType.STRING },
+      partitionKey: { name: "id", type: AttributeType.STRING },
       removalPolicy: RemovalPolicy.DESTROY,
-      sortKey: { name: "sk", type: AttributeType.STRING },
+      sortKey: { name: "date", type: AttributeType.STRING },
       tableName: "EventTable",
     });
 
