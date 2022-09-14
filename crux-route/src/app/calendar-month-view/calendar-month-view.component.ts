@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { CalendarEvent, CalendarView } from 'angular-calendar';
@@ -16,6 +16,8 @@ import {
 import { Observable } from 'rxjs';
 import { colors } from '../utils/colors';
 import { Film } from './interfaces/film';
+import { EventService } from './services/event.service';
+import { TrainingEvent } from './interfaces/event';
 
 @Component({
   selector: 'app-calendar-month-view',
@@ -23,6 +25,8 @@ import { Film } from './interfaces/film';
   styleUrls: ['./calendar-month-view.component.scss'],
 })
 export class CalendarMonthViewComponent implements OnInit {
+  TrainingEvents: any = [];
+
   view: CalendarView = CalendarView.Month;
 
   viewDate: Date = new Date();
@@ -31,10 +35,17 @@ export class CalendarMonthViewComponent implements OnInit {
 
   activeDayIsOpen: boolean = false;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private eventService: EventService) {}
 
   ngOnInit(): void {
     this.fetchEvents();
+    this.fetchTrainingEvents();
+  }
+
+  fetchTrainingEvents() {
+    return this.eventService.getEvents().subscribe((data: {}) => {
+      console.log(data);
+    });
   }
 
   fetchEvents(): void {
