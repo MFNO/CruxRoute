@@ -40,3 +40,13 @@
     </mwl-calendar-day-view>
   </div>
 </div>
+<form [formGroup]="trainingEventForm" (ngSubmit)="addEvent()">
+  <label for="training-event-date">Date: </label>
+  <input id="training-event-date" type="text" formControlName="date" />
+
+  <label for="training-event-description">Description: </label>
+  <input id="last-name" type="text" formControlName="description" />
+
+  <p>Complete the form to enable button.</p>
+  <button type="submit" [disabled]="!trainingEventForm.valid">Submit</button>
+</form>

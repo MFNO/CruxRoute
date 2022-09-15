@@ -11,6 +11,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CalendarMonthViewComponentsModule } from './calendar-month-view/components/module';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [AppComponent, CalendarMonthViewComponent],
@@ -26,6 +27,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     }),
     NgbModule,
     CalendarMonthViewComponentsModule,
+    ReactiveFormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

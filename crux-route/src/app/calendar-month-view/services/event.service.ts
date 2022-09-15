@@ -25,7 +25,7 @@ export class EventService {
       .pipe(retry(1), catchError(this.handleError));
   }
 
-  postEvent(event: any): Observable<TrainingEvent> {
+  postEvent(event: TrainingEvent): Observable<TrainingEvent> {
     return this.http
       .post<TrainingEvent>(
         AwsSettings.CruxRouteLambdaStack.HttpApiUrl + '/events',

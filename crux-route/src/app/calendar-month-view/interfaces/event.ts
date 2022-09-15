@@ -1,5 +1,5 @@
 export interface TrainingEvent {
-  id: number;
+  id: string;
   date: string;
   description: string;
 }

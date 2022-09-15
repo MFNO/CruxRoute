@@ -18,6 +18,7 @@ import { colors } from '../utils/colors';
 import { Film } from './interfaces/film';
 import { EventService } from './services/event.service';
 import { TrainingEvent } from './interfaces/event';
+import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-calendar-month-view',
@@ -26,6 +27,11 @@ import { TrainingEvent } from './interfaces/event';
 })
 export class CalendarMonthViewComponent implements OnInit {
   TrainingEvents: any = [];
+
+  trainingEventForm = new FormGroup({
+    date: new FormControl(''),
+    description: new FormControl(''),
+  });
 
   view: CalendarView = CalendarView.Month;
 
@@ -46,6 +52,29 @@ export class CalendarMonthViewComponent implements OnInit {
     return this.eventService.getEvents().subscribe((data: {}) => {
       console.log(data);
     });
+  }
+
+  //for testing purposes only, will have to be moved to back-end
+  makeid(length: number): string {
+    var result = '';
+    var characters =
+      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var charactersLength = characters.length;
+    for (var i = 0; i < length; i++) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+  }
+
+  addEvent(): void {
+    console.log('adding event');
+    this.eventService
+      .postEvent({
+        id: this.makeid(10),
+        date: '10-02-2022',
+        description: 'go hard',
+      })
+      .subscribe((resp) => console.log(resp));
   }
 
   fetchEvents(): void {
