@@ -14,5 +14,5 @@ new CreateCruxRouteLambdaStack(app, "CreateCruxRouteLambdaStack", {
   env: envCruxRoute,
   deploymentEnvironment: "dev",
   stackName: "CruxRouteLambdaStack",
-  apiCorsAllowedOrigins: ["http://localhost:3000"],
+  apiCorsAllowedOrigins: ["http://localhost:4200"],
 });

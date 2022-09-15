@@ -58,7 +58,7 @@ export class CreateCruxRouteLambdaStack extends Stack {
           CorsHttpMethod.POST,
           CorsHttpMethod.OPTIONS,
         ],
-        //allowOrigins: props.apiCorsAllowedOrigins,
+        allowOrigins: props.apiCorsAllowedOrigins,
       },
     });
 

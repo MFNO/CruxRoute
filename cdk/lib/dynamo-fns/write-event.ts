@@ -11,7 +11,10 @@ export const handler = async (
   const body = event.body;
   if (body) {
     const events = await Event.create(JSON.parse(body));
-    return { body: JSON.stringify(events), statusCode: 200 };
+    return {
+      body: JSON.stringify(events),
+      statusCode: 200,
+    };
   }
   return { body: "Error, invalid input!", statusCode: 400 };
 };
