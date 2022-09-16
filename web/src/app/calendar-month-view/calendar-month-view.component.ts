@@ -1,23 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { map } from 'rxjs/operators';
 import { CalendarEvent, CalendarView } from 'angular-calendar';
-import {
-  isSameMonth,
-  isSameDay,
-  startOfMonth,
-  endOfMonth,
-  startOfWeek,
-  endOfWeek,
-  startOfDay,
-  endOfDay,
-  format,
-} from 'date-fns';
-import { Observable } from 'rxjs';
+import { isSameMonth, isSameDay } from 'date-fns';
 import { colors } from '../shared/colors';
 import { Film } from './interfaces/film';
 import { EventService } from './services/event.service';
 import { TrainingEvent } from '../shared/training-event';
+import {
+  MatDialog,
+  MatDialogConfig,
+  MatDialogRef,
+} from '@angular/material/dialog';
+import { TrainingEventFormComponent } from '../training-event-form/training-event-form.component';
 
 @Component({
   selector: 'app-calendar-month-view',
@@ -37,7 +30,7 @@ export class CalendarMonthViewComponent implements OnInit {
 
   activeDayIsOpen: boolean = false;
 
-  constructor(private http: HttpClient, private eventService: EventService) {}
+  constructor(private eventService: EventService, private dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.fetchEvents();
@@ -85,15 +78,21 @@ export class CalendarMonthViewComponent implements OnInit {
       );
     }
   }
-}
 
-function getTimezoneOffsetString(date: Date): string {
-  const timezoneOffset = date.getTimezoneOffset();
-  const hoursOffset = String(
-    Math.floor(Math.abs(timezoneOffset / 60))
-  ).padStart(2, '0');
-  const minutesOffset = String(Math.abs(timezoneOffset % 60)).padEnd(2, '0');
-  const direction = timezoneOffset > 0 ? '-' : '+';
+  openDialog() {
+    const dialogConfig = new MatDialogConfig();
 
-  return `T00:00:00${direction}${hoursOffset}:${minutesOffset}`;
+    dialogConfig.autoFocus = true;
+
+    //this.dialog.open(TrainingEventFormComponent, dialogConfig);
+
+    const dialogRef = this.dialog.open(
+      TrainingEventFormComponent,
+      dialogConfig
+    );
+
+    dialogRef.afterClosed().subscribe(() => {
+      this.fetchEvents();
+    });
+  }
 }

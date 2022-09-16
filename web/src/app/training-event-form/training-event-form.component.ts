@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { MatDialogRef } from '@angular/material/dialog';
 import { EventService } from '../calendar-month-view/services/event.service';
 import { TrainingEvent } from '../shared/training-event';
 
@@ -10,13 +11,17 @@ import { TrainingEvent } from '../shared/training-event';
 })
 export class TrainingEventFormComponent implements OnInit {
   @Input() trainingEvents: TrainingEvent[];
+  isUpdating: boolean = false;
 
   trainingEventForm = new FormGroup({
     date: new FormControl(''),
     description: new FormControl(''),
   });
 
-  constructor(private eventService: EventService) {}
+  constructor(
+    private eventService: EventService,
+    private dialogRef: MatDialogRef<TrainingEventFormComponent>
+  ) {}
 
   ngOnInit(): void {}
 
@@ -32,7 +37,12 @@ export class TrainingEventFormComponent implements OnInit {
     return result;
   }
 
+  close(): void {
+    this.dialogRef.close();
+  }
+
   addEvent(): void {
+    this.isUpdating = true;
     const date = this.trainingEventForm.get('date')!.value;
     const description = this.trainingEventForm.get('description')!.value;
     if (date && description) {
@@ -42,9 +52,10 @@ export class TrainingEventFormComponent implements OnInit {
         description: description,
       };
       console.log('adding event');
-      this.eventService
-        .postEvent(trainingEvent)
-        .subscribe((resp) => console.log(resp));
+      this.eventService.postEvent(trainingEvent).subscribe((resp) => {
+        console.log(resp);
+        this.dialogRef.close();
+      });
     }
   }
 }

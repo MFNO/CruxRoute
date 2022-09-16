@@ -38,31 +38,6 @@ import { CalendarView } from 'angular-calendar';
       <div class="col-md-4">
         <h3>{{ viewDate | calendarDate: view + 'ViewTitle':locale }}</h3>
       </div>
-      <div class="col-md-4">
-        <div class="btn-group">
-          <div
-            class="btn btn-primary"
-            (click)="viewChange.emit(CalendarView.Month)"
-            [class.active]="view === CalendarView.Month"
-          >
-            Month
-          </div>
-          <div
-            class="btn btn-primary"
-            (click)="viewChange.emit(CalendarView.Week)"
-            [class.active]="view === CalendarView.Week"
-          >
-            Week
-          </div>
-          <div
-            class="btn btn-primary"
-            (click)="viewChange.emit(CalendarView.Day)"
-            [class.active]="view === CalendarView.Day"
-          >
-            Day
-          </div>
-        </div>
-      </div>
     </div>
     <br />
   `,
