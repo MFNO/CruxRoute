@@ -4,7 +4,7 @@ import { colors } from '../shared/colors';
 import { EventService } from './services/event.service';
 import { TrainingEvent } from '../shared/training-event';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { TrainingEventFormComponent } from '../training-event-form/training-event-form.component';
+import { AddTraingEventDialogComponent } from '../add-training-event-dialog/add-training-event-dialog.component';
 
 @Component({
   selector: 'app-calendar-month-view',
@@ -52,7 +52,7 @@ export class CalendarMonthViewComponent implements OnInit {
     dialogConfig.data = { date: currentDate };
 
     const dialogRef = this.dialog.open(
-      TrainingEventFormComponent,
+      AddTraingEventDialogComponent,
       dialogConfig
     );
 

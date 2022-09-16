@@ -12,7 +12,7 @@ import { CalendarMonthViewComponentsModule } from './calendar-month-view/compone
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
-import { TrainingEventFormComponent } from './training-event-form/training-event-form.component';
+import { AddTraingEventDialogComponent } from './add-training-event-dialog/add-training-event-dialog.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { MatInputModule } from '@angular/material/input';
@@ -22,13 +22,15 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { EventDisplayComponent } from './event-display/event-display.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { DeleteTrainingEventDialogComponent } from './delete-training-event-dialog/delete-training-event-dialog.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     CalendarMonthViewComponent,
-    TrainingEventFormComponent,
+    AddTraingEventDialogComponent,
     EventDisplayComponent,
+    DeleteTrainingEventDialogComponent,
   ],
   imports: [
     CommonModule,
@@ -54,6 +56,6 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
   ],
   providers: [],
   bootstrap: [AppComponent],
-  entryComponents: [TrainingEventFormComponent],
+  entryComponents: [AddTraingEventDialogComponent],
 })
 export class AppModule {}

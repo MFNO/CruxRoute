@@ -5,11 +5,11 @@ import { EventService } from '../calendar-month-view/services/event.service';
 import { TrainingEvent } from '../shared/training-event';
 
 @Component({
-  selector: 'app-training-event-form',
-  templateUrl: './training-event-form.component.html',
-  styleUrls: ['./training-event-form.component.scss'],
+  selector: 'app-add-training-event-dialog',
+  templateUrl: './add-training-event-dialog.component.html',
+  styleUrls: ['./add-training-event-dialog.component.scss'],
 })
-export class TrainingEventFormComponent implements OnInit {
+export class AddTraingEventDialogComponent implements OnInit {
   isUpdating: boolean = false;
   currentDate: string;
 
@@ -20,7 +20,7 @@ export class TrainingEventFormComponent implements OnInit {
 
   constructor(
     private eventService: EventService,
-    private dialogRef: MatDialogRef<TrainingEventFormComponent>,
+    private dialogRef: MatDialogRef<AddTraingEventDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data: any
   ) {
     this.trainingEventForm.controls['date'].setValue(data.date);
