@@ -8,7 +8,7 @@ const schema = {
   indexes: {
     primary: {
       hash: "id",
-      sort: "date",
+      sort: "personId",
     },
   },
   models: {
@@ -19,6 +19,10 @@ const schema = {
         value: "event",
       },
       id: {
+        required: true,
+        type: "string",
+      },
+      personId: {
         required: true,
         type: "string",
       },

@@ -33,6 +33,19 @@ export class EventService {
       .pipe(retry(1), catchError(this.handleError));
   }
 
+  deleteEvent(eventId: string, personId: string): Observable<TrainingEvent> {
+    return this.http
+      .delete<TrainingEvent>(
+        AwsSettings.CruxRouteLambdaStack.HttpApiUrl +
+          '/events/' +
+          personId +
+          '/' +
+          eventId,
+        this.httpOptions
+      )
+      .pipe(retry(1), catchError(this.handleError));
+  }
+
   handleError(error: any) {
     let errorMessage = '';
     if (error.error instanceof ErrorEvent) {

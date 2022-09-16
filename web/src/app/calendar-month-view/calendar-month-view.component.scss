@@ -13,4 +13,32 @@ pre {
 }
 .cal-cell-top:hover .add-icon {
   display: inline-block;
+  -webkit-animation: fadein 0.3s linear forwards;
+  animation: fadein 0.3s linear forwards;
+}
+
+@-webkit-keyframes fadein {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fadein {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.event-container {
+  height: 100%;
+  margin: 0.5em;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 }

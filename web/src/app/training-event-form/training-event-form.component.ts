@@ -51,12 +51,11 @@ export class TrainingEventFormComponent implements OnInit {
     if (date && description) {
       const trainingEvent: TrainingEvent = {
         id: this.makeid(10),
+        personId: '1',
         date: date,
         description: description,
       };
-      console.log('adding event');
       this.eventService.postEvent(trainingEvent).subscribe((resp) => {
-        console.log(resp);
         this.dialogRef.close();
       });
     }

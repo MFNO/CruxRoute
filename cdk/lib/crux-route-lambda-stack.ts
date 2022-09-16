@@ -30,8 +30,14 @@ export class CreateCruxRouteLambdaStack extends Stack {
       billingMode: BillingMode.PROVISIONED,
       partitionKey: { name: "id", type: AttributeType.STRING },
       removalPolicy: RemovalPolicy.DESTROY,
-      sortKey: { name: "date", type: AttributeType.STRING },
+      sortKey: { name: "personId", type: AttributeType.STRING },
       tableName: "EventTable",
+    });
+
+    const deleteFunction = new NodejsFunction(this, "DeleteEventFn", {
+      architecture: Architecture.ARM_64,
+      entry: `${__dirname}/dynamo-fns/delete-event.ts`,
+      logRetention: RetentionDays.ONE_WEEK,
     });
 
     const readFunction = new NodejsFunction(this, "ReadEventFn", {
@@ -46,6 +52,8 @@ export class CreateCruxRouteLambdaStack extends Stack {
       logRetention: RetentionDays.ONE_WEEK,
     });
 
+    table.grantReadWriteData(deleteFunction);
+
     table.grantReadData(readFunction);
 
     table.grantWriteData(writeFunction);
@@ -57,10 +65,16 @@ export class CreateCruxRouteLambdaStack extends Stack {
           CorsHttpMethod.GET,
           CorsHttpMethod.POST,
           CorsHttpMethod.OPTIONS,
+          CorsHttpMethod.DELETE,
         ],
         allowOrigins: props.apiCorsAllowedOrigins,
       },
     });
+
+    const deleteIntegration = new HttpLambdaIntegration(
+      "ReadIntegration",
+      deleteFunction
+    );
 
     const readIntegration = new HttpLambdaIntegration(
       "ReadIntegration",
@@ -82,6 +96,12 @@ export class CreateCruxRouteLambdaStack extends Stack {
       integration: writeIntegration,
       methods: [HttpMethod.POST],
       path: "/events",
+    });
+
+    api.addRoutes({
+      integration: deleteIntegration,
+      methods: [HttpMethod.DELETE],
+      path: "/events/{personId}/{eventId}",
     });
 
     new CfnOutput(this, "HttpApiUrl", { value: api.apiEndpoint });

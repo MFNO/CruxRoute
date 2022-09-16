@@ -1,0 +1,22 @@
+@import "../shared/variables";
+
+.event-title-container {
+  background-color: $blue;
+  padding: 0.5rem;
+  color: white;
+  display: flex;
+}
+
+.title-container {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  flex-direction: column;
+}
+
+.delete-icon {
+  margin-left: auto;
+}
+.delete-icon:hover {
+  cursor: pointer;
+}

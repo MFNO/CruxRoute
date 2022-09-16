@@ -1,1 +1,9 @@
-<p>{{ event.title }}</p>
+<div class="event-title-container">
+  <div class="event-title">{{ event.title }}</div>
+  <mat-icon
+    class="delete-icon"
+    aria-hidden="false"
+    fontIcon="delete"
+    (click)="deleteEvent()"
+  ></mat-icon>
+</div>

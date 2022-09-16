@@ -1,15 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { CalendarEvent, CalendarView } from 'angular-calendar';
-import { isSameMonth, isSameDay } from 'date-fns';
 import { colors } from '../shared/colors';
-import { Film } from './interfaces/film';
 import { EventService } from './services/event.service';
 import { TrainingEvent } from '../shared/training-event';
-import {
-  MatDialog,
-  MatDialogConfig,
-  MatDialogRef,
-} from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { TrainingEventFormComponent } from '../training-event-form/training-event-form.component';
 
 @Component({
@@ -40,6 +34,7 @@ export class CalendarMonthViewComponent implements OnInit {
     this.eventService.getEvents().subscribe((events) => {
       this.events = events.map((trainingEvent: TrainingEvent) => {
         return {
+          id: trainingEvent.id,
           title: trainingEvent.description,
           start: new Date(trainingEvent.date),
           color: colors.yellow,
@@ -48,35 +43,6 @@ export class CalendarMonthViewComponent implements OnInit {
       });
       this.isLoaded = true;
     });
-  }
-
-  dayClicked({
-    date,
-    events,
-  }: {
-    date: Date;
-    events: CalendarEvent<{ film: Film }>[];
-  }): void {
-    if (isSameMonth(date, this.viewDate)) {
-      if (
-        (isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) ||
-        events.length === 0
-      ) {
-        this.activeDayIsOpen = false;
-      } else {
-        this.activeDayIsOpen = true;
-        this.viewDate = date;
-      }
-    }
-  }
-
-  eventClicked(event: CalendarEvent<{ film: Film }>): void {
-    if (event.meta) {
-      window.open(
-        `https://www.themoviedb.org/movie/${event.meta.film.id}`,
-        '_blank'
-      );
-    }
   }
 
   openDialog(currentDate: Date) {
