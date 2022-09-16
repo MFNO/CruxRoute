@@ -1,6 +1,6 @@
 import { Injectable, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { TrainingEvent } from '../interfaces/event';
+import { TrainingEvent } from '../../shared/training-event';
 import { Observable, throwError } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
 import AwsSettings from '../../aws-deploy-config.json';

@@ -12,9 +12,17 @@ import { CalendarMonthViewComponentsModule } from './calendar-month-view/compone
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
-
+import { TrainingEventFormComponent } from './training-event-form/training-event-form.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
 @NgModule({
-  declarations: [AppComponent, CalendarMonthViewComponent],
+  declarations: [
+    AppComponent,
+    CalendarMonthViewComponent,
+    TrainingEventFormComponent,
+  ],
   imports: [
     CommonModule,
     BrowserAnimationsModule,
@@ -28,6 +36,10 @@ import { ReactiveFormsModule } from '@angular/forms';
     NgbModule,
     CalendarMonthViewComponentsModule,
     ReactiveFormsModule,
+    MatDatepickerModule,
+    MatMomentDateModule,
+    MatFormFieldModule,
+    MatInputModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
