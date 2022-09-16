@@ -1,6 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { EventService } from '../calendar-month-view/services/event.service';
 import { TrainingEvent } from '../shared/training-event';
 
@@ -10,8 +10,8 @@ import { TrainingEvent } from '../shared/training-event';
   styleUrls: ['./training-event-form.component.scss'],
 })
 export class TrainingEventFormComponent implements OnInit {
-  @Input() trainingEvents: TrainingEvent[];
   isUpdating: boolean = false;
+  currentDate: string;
 
   trainingEventForm = new FormGroup({
     date: new FormControl(''),
@@ -20,8 +20,11 @@ export class TrainingEventFormComponent implements OnInit {
 
   constructor(
     private eventService: EventService,
-    private dialogRef: MatDialogRef<TrainingEventFormComponent>
-  ) {}
+    private dialogRef: MatDialogRef<TrainingEventFormComponent>,
+    @Inject(MAT_DIALOG_DATA) data: any
+  ) {
+    this.trainingEventForm.controls['date'].setValue(data.date);
+  }
 
   ngOnInit(): void {}
 

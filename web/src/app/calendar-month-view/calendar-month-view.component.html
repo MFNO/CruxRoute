@@ -16,7 +16,7 @@
 <ng-template #customCellTemplate let-day="day" let-locale="locale">
   <div class="cal-cell-top">
     <mat-icon
-      (click)="openDialog()"
+      (click)="openDialog(day.date)"
       class="add-icon"
       aria-hidden="false"
       fontIcon="add"

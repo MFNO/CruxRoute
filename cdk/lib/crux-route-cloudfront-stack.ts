@@ -43,7 +43,7 @@ export class CreateCruxRouteCloudfrontStack extends Stack {
 
     // Trigger frontend deployment
     new BucketDeployment(this, "websiteDeployment", {
-      sources: [Source.asset("../crux-route/build")],
+      sources: [Source.asset("../web/build")],
       destinationBucket: websiteBucket as any,
     });
 

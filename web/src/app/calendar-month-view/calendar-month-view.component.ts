@@ -79,12 +79,11 @@ export class CalendarMonthViewComponent implements OnInit {
     }
   }
 
-  openDialog() {
+  openDialog(currentDate: Date) {
     const dialogConfig = new MatDialogConfig();
 
     dialogConfig.autoFocus = true;
-
-    //this.dialog.open(TrainingEventFormComponent, dialogConfig);
+    dialogConfig.data = { date: currentDate };
 
     const dialogRef = this.dialog.open(
       TrainingEventFormComponent,
