@@ -28,7 +28,10 @@
   </div>
   <div class="event-container">
     <div *ngFor="let event of day.events; let i = index">
-      <app-event-display [event]="event"></app-event-display>
+      <app-event-display
+        (fetchEvent)="fetchEvents()"
+        [event]="event"
+      ></app-event-display>
     </div>
   </div>
 </ng-template>

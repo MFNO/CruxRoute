@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CalendarEvent } from 'angular-calendar';
 import { EventService } from '../calendar-month-view/services/event.service';
 
@@ -9,6 +9,7 @@ import { EventService } from '../calendar-month-view/services/event.service';
 })
 export class EventDisplayComponent implements OnInit {
   @Input() event: CalendarEvent;
+  @Output('fetchEvent') fetchEvents: EventEmitter<any> = new EventEmitter();
   constructor(private eventService: EventService) {}
 
   ngOnInit(): void {}
@@ -17,9 +18,10 @@ export class EventDisplayComponent implements OnInit {
     if (this.event.id) {
       const eventId = '' + this.event.id;
       const personId = '1';
-      this.eventService
-        .deleteEvent(eventId, personId)
-        .subscribe((resp) => console.log(resp));
+      this.eventService.deleteEvent(eventId, personId).subscribe((resp) => {
+        console.log(resp);
+        this.fetchEvents.emit();
+      });
     }
   }
 }
