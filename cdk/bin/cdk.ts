@@ -14,5 +14,8 @@ new CreateCruxRouteLambdaStack(app, "CreateCruxRouteLambdaStack", {
   env: envCruxRoute,
   deploymentEnvironment: "dev",
   stackName: "CruxRouteLambdaStack",
-  apiCorsAllowedOrigins: ["http://localhost:4200"],
+  apiCorsAllowedOrigins: [
+    "http://localhost:4200",
+    "http://cruxroutebucket.s3-website-us-east-1.amazonaws.com/",
+  ],
 });
