@@ -17,6 +17,9 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialogModule } from '@angular/material/dialog';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -40,8 +43,11 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     MatMomentDateModule,
     MatFormFieldModule,
     MatInputModule,
+    MatButtonModule,
+    MatDialogModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
+  entryComponents: [TrainingEventFormComponent],
 })
 export class AppModule {}

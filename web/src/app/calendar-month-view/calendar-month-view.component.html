@@ -13,7 +13,7 @@
   </div>
 </ng-template>
 
-<div *ngIf="events$ | async; else loading; let events">
+<div *ngIf="isLoaded; else loading">
   <div [ngSwitch]="view">
     <mwl-calendar-month-view
       *ngSwitchCase="'month'"

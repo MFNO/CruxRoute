@@ -17,6 +17,7 @@ import { Observable } from 'rxjs';
 import { colors } from '../shared/colors';
 import { Film } from './interfaces/film';
 import { EventService } from './services/event.service';
+import { TrainingEvent } from '../shared/training-event';
 
 @Component({
   selector: 'app-calendar-month-view',
@@ -26,11 +27,13 @@ import { EventService } from './services/event.service';
 export class CalendarMonthViewComponent implements OnInit {
   TrainingEvents: any = [];
 
+  isLoaded: boolean = false;
+
   view: CalendarView = CalendarView.Month;
 
   viewDate: Date = new Date();
 
-  events$: Observable<CalendarEvent<{ film: Film }>[]>;
+  events: CalendarEvent<{ trainingEvent: TrainingEvent }>[];
 
   activeDayIsOpen: boolean = false;
 
@@ -38,58 +41,20 @@ export class CalendarMonthViewComponent implements OnInit {
 
   ngOnInit(): void {
     this.fetchEvents();
-    this.fetchTrainingEvents();
-  }
-
-  fetchTrainingEvents() {
-    return this.eventService.getEvents().subscribe((data: {}) => {
-      console.log(data);
-    });
   }
 
   fetchEvents(): void {
-    const getStart: any = {
-      month: startOfMonth,
-      week: startOfWeek,
-      day: startOfDay,
-    }[this.view];
-
-    const getEnd: any = {
-      month: endOfMonth,
-      week: endOfWeek,
-      day: endOfDay,
-    }[this.view];
-
-    const params = new HttpParams()
-      .set(
-        'primary_release_date.gte',
-        format(getStart(this.viewDate), 'yyyy-MM-dd')
-      )
-      .set(
-        'primary_release_date.lte',
-        format(getEnd(this.viewDate), 'yyyy-MM-dd')
-      )
-      .set('api_key', '0ec33936a68018857d727958dca1424f');
-
-    this.events$ = this.http
-      .get('https://api.themoviedb.org/3/discover/movie', { params })
-      .pipe(
-        map(({ results }: any) => {
-          return results.map((film: Film) => {
-            return {
-              title: film.title,
-              start: new Date(
-                film.release_date + getTimezoneOffsetString(this.viewDate)
-              ),
-              color: colors.yellow,
-              allDay: true,
-              meta: {
-                film,
-              },
-            };
-          });
-        })
-      );
+    this.eventService.getEvents().subscribe((events) => {
+      this.events = events.map((trainingEvent: TrainingEvent) => {
+        return {
+          title: trainingEvent.description,
+          start: new Date(trainingEvent.date),
+          color: colors.yellow,
+          allDay: true,
+        };
+      });
+      this.isLoaded = true;
+    });
   }
 
   dayClicked({

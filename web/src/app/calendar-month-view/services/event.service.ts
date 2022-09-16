@@ -17,12 +17,10 @@ export class EventService {
     }),
   };
 
-  getEvents(): Observable<TrainingEvent> {
-    return this.http
-      .get<TrainingEvent>(
-        AwsSettings.CruxRouteLambdaStack.HttpApiUrl + '/events'
-      )
-      .pipe(retry(1), catchError(this.handleError));
+  getEvents(): Observable<TrainingEvent[]> {
+    return this.http.get<TrainingEvent[]>(
+      AwsSettings.CruxRouteLambdaStack.HttpApiUrl + '/events'
+    );
   }
 
   postEvent(event: TrainingEvent): Observable<TrainingEvent> {

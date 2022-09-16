@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { EventService } from '../calendar-month-view/services/event.service';
 import { TrainingEvent } from '../shared/training-event';
@@ -9,6 +9,8 @@ import { TrainingEvent } from '../shared/training-event';
   styleUrls: ['./training-event-form.component.scss'],
 })
 export class TrainingEventFormComponent implements OnInit {
+  @Input() trainingEvents: TrainingEvent[];
+
   trainingEventForm = new FormGroup({
     date: new FormControl(''),
     description: new FormControl(''),
