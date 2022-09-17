@@ -15,6 +15,8 @@ import { AttributeType, BillingMode, Table } from "aws-cdk-lib/aws-dynamodb";
 
 interface CreateCruxRouteLambdaStackProps extends StackProps {
   readonly deploymentEnvironment: "dev" | "prod";
+  readonly userPool: UserPool;
+  readonly userPoolClient: UserPoolClient;
   readonly apiCorsAllowedOrigins: string[];
 }
 
@@ -26,31 +28,45 @@ export class CreateCruxRouteLambdaStack extends Stack {
   ) {
     super(scope, id, props);
 
+    const { deploymentEnvironment } = props;
+
     const table = new Table(this, id, {
       billingMode: BillingMode.PROVISIONED,
       partitionKey: { name: "id", type: AttributeType.STRING },
       removalPolicy: RemovalPolicy.DESTROY,
       sortKey: { name: "personId", type: AttributeType.STRING },
-      tableName: "EventTable",
+      tableName: `${deploymentEnvironment}-TrainingEventTable`,
     });
 
-    const deleteFunction = new NodejsFunction(this, "DeleteEventFn", {
-      architecture: Architecture.ARM_64,
-      entry: `${__dirname}/dynamo-fns/delete-event.ts`,
-      logRetention: RetentionDays.ONE_WEEK,
-    });
+    const deleteFunction = new NodejsFunction(
+      this,
+      `${deploymentEnvironment}-DeleteEventFn`,
+      {
+        architecture: Architecture.ARM_64,
+        entry: `${__dirname}/dynamo-fns/delete-training-event.ts`,
+        logRetention: RetentionDays.ONE_WEEK,
+      }
+    );
 
-    const readFunction = new NodejsFunction(this, "ReadEventFn", {
-      architecture: Architecture.ARM_64,
-      entry: `${__dirname}/dynamo-fns/read-event.ts`,
-      logRetention: RetentionDays.ONE_WEEK,
-    });
+    const readFunction = new NodejsFunction(
+      this,
+      `${deploymentEnvironment}-ReadEventFn`,
+      {
+        architecture: Architecture.ARM_64,
+        entry: `${__dirname}/dynamo-fns/read-training-event.ts`,
+        logRetention: RetentionDays.ONE_WEEK,
+      }
+    );
 
-    const writeFunction = new NodejsFunction(this, "WriteEventFn", {
-      architecture: Architecture.ARM_64,
-      entry: `${__dirname}/dynamo-fns/write-event.ts`,
-      logRetention: RetentionDays.ONE_WEEK,
-    });
+    const writeFunction = new NodejsFunction(
+      this,
+      `${deploymentEnvironment}-WriteEventFn`,
+      {
+        architecture: Architecture.ARM_64,
+        entry: `${__dirname}/dynamo-fns/write-training-event.ts`,
+        logRetention: RetentionDays.ONE_WEEK,
+      }
+    );
 
     table.grantReadWriteData(deleteFunction);
 
@@ -58,7 +74,7 @@ export class CreateCruxRouteLambdaStack extends Stack {
 
     table.grantWriteData(writeFunction);
 
-    const api = new HttpApi(this, `EventApi`, {
+    const api = new HttpApi(this, `${deploymentEnvironment}-TrainingEventApi`, {
       corsPreflight: {
         allowHeaders: ["Content-Type"],
         allowMethods: [

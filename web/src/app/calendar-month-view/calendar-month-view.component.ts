@@ -5,6 +5,8 @@ import { EventService } from './services/event.service';
 import { TrainingEvent } from '../shared/training-event';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { AddTraingEventDialogComponent } from '../add-training-event-dialog/add-training-event-dialog.component';
+import { CognitoService } from '../cognito.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-calendar-month-view',
@@ -24,9 +26,19 @@ export class CalendarMonthViewComponent implements OnInit {
 
   activeDayIsOpen: boolean = false;
 
-  constructor(private eventService: EventService, private dialog: MatDialog) {}
+  constructor(
+    private eventService: EventService,
+    private dialog: MatDialog,
+    private cognitoService: CognitoService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
+    this.cognitoService.isAuthenticated().then((success: boolean) => {
+      if (!success) {
+        this.router.navigate(['/sigin']);
+      }
+    });
     this.fetchEvents();
   }
 

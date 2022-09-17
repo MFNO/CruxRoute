@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { TrainingEvent } from '../../shared/training-event';
 import { Observable, throwError } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
-import AwsSettings from '../../aws-deploy-config.json';
+import AwsSettings from '../../aws-deploy-dev-config.json';
 
 @Injectable({
   providedIn: 'root',
@@ -19,14 +19,14 @@ export class EventService {
 
   getEvents(): Observable<TrainingEvent[]> {
     return this.http.get<TrainingEvent[]>(
-      AwsSettings.CruxRouteLambdaStack.HttpApiUrl + '/events'
+      AwsSettings.DevCruxRouteLambdaStack.HttpApiUrl + '/events'
     );
   }
 
   postEvent(event: TrainingEvent): Observable<TrainingEvent> {
     return this.http
       .post<TrainingEvent>(
-        AwsSettings.CruxRouteLambdaStack.HttpApiUrl + '/events',
+        AwsSettings.DevCruxRouteLambdaStack.HttpApiUrl + '/events',
         JSON.stringify(event),
         this.httpOptions
       )
@@ -36,7 +36,7 @@ export class EventService {
   deleteEvent(eventId: string, personId: string): Observable<TrainingEvent> {
     return this.http
       .delete<TrainingEvent>(
-        AwsSettings.CruxRouteLambdaStack.HttpApiUrl +
+        AwsSettings.DevCruxRouteLambdaStack.HttpApiUrl +
           '/events/' +
           personId +
           '/' +

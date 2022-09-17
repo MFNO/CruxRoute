@@ -8,9 +8,11 @@
     "build": "tsc",
     "watch": "tsc -w",
     "test": "jest",
-    "cdk:synth": "cdk synth --profile CruxRouteAdmin",
-    "cdk:bootstrap": "cdk bootstrap --profile CruxRouteAdmin",
-    "cdk:deploy": "cdk deploy CreateCruxRouteLambdaStack CreateDevCruxRouteCognito --profile CruxRouteAdmin --require-approval never --progress events --outputs-file ../web/src/app/aws-deploy-config.json"
+    "synth:dev": "cdk synth DevCreateCruxRouteCognito DevCreateCruxRouteLambdaStack --profile CruxRouteAdmin",
+    "deploy:dev": "cdk deploy DevCreateCruxRouteCognito DevCreateCruxRouteLambdaStack --profile CruxRouteAdmin --require-approval never --progress events --outputs-file ../web/src/app/aws-deploy-dev-config.json",
+    "synth:prod": "cdk synth ProdCreateCruxRouteCognito ProdCreateCruxRouteLambdaStack --profile CruxRouteAdmin",
+    "deploy:prod": "cdk deploy ProdCreateCruxRouteCognito ProdCreateCruxRouteLambdaStack --profile CruxRouteAdmin --require-approval never --progress events --outputs-file ../web/src/app/aws-deploy-prod-config.json"
+
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.104",

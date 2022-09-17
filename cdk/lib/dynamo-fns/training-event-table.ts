@@ -12,11 +12,11 @@ const schema = {
     },
   },
   models: {
-    event: {
+    TrainingEvent: {
       type: {
         required: true,
         type: "string",
-        value: "event",
+        value: "TrainingEvent",
       },
       id: {
         required: true,
@@ -43,13 +43,13 @@ const schema = {
   format: "onetable:1.0.0",
 } as const;
 
-export type EventType = Entity<typeof schema.models.event>;
+export type TrainingEventType = Entity<typeof schema.models.TrainingEvent>;
 
 const table = new Table({
   client,
-  name: "EventTable",
+  name: "dev-TrainingEventTable",
   schema,
   timestamps: true,
 });
 
-export const Event = table.getModel<EventType>("event");
+export const TrainingEvent = table.getModel<TrainingEventType>("TrainingEvent");

@@ -3,17 +3,16 @@ import type {
   APIGatewayProxyResultV2,
 } from "aws-lambda";
 
-import { Event } from "./event-table";
+import { TrainingEvent } from "./training-event-table";
 
 export const handler = async (
   event: APIGatewayProxyEventV2
 ): Promise<APIGatewayProxyResultV2> => {
-  if (event.pathParameters) {
-    const eventId = event.pathParameters.eventId;
-    const personId = event.pathParameters.personId;
-    const response = await Event.remove({ id: eventId, personId: personId });
+  const body = event.body;
+  if (body) {
+    const events = await TrainingEvent.create(JSON.parse(body));
     return {
-      body: JSON.stringify(response),
+      body: JSON.stringify(events),
       statusCode: 200,
     };
   }

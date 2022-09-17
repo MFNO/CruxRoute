@@ -5,8 +5,8 @@
 export const environment = {
   production: false,
   cognito: {
-    userPoolId: 'us-east-1_BToOC3T5x',
-    userPoolWebClientId: '7q00g1rkaq2i16n1177bsff2qv',
+    userPoolId: 'us-east-1_kcm326VCS',
+    userPoolWebClientId: '75ml0moepuvrh1ucljmc5fgg96',
   },
 };
 

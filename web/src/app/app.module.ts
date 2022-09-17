@@ -27,6 +27,7 @@ import { SignUpComponent } from './sign-up/sign-up.component';
 import { FormsModule } from '@angular/forms';
 import { ProfileComponent } from './profile/profile.component';
 import { SignInComponent } from './sign-in/sign-in.component';
+import { MatSidenavModule } from '@angular/material/sidenav';
 
 @NgModule({
   declarations: [
@@ -61,6 +62,7 @@ import { SignInComponent } from './sign-in/sign-in.component';
     MatDialogModule,
     MatIconModule,
     MatProgressSpinnerModule,
+    MatSidenavModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

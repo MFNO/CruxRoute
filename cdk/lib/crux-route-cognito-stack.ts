@@ -24,19 +24,25 @@ export class CreateCruxRouteCognitoStack extends Stack {
   ) {
     super(scope, id, props);
 
-    this.userPool = new UserPool(this, `crux-route-user-pool`, {
-      userPoolName: `crux-route-user-pool`,
-      selfSignUpEnabled: true,
-      signInAliases: {
-        email: true,
-      },
-      autoVerify: {
-        email: true,
-      },
-      removalPolicy: RemovalPolicy.RETAIN,
-    });
+    const { deploymentEnvironment } = props;
 
-    const uniquePrefix = `crux-route`;
+    this.userPool = new UserPool(
+      this,
+      `${deploymentEnvironment}-CruxRouteUserPool`,
+      {
+        userPoolName: `${deploymentEnvironment}-CruxRouteUserPool`,
+        selfSignUpEnabled: true,
+        signInAliases: {
+          email: true,
+        },
+        autoVerify: {
+          email: true,
+        },
+        removalPolicy: RemovalPolicy.RETAIN,
+      }
+    );
+
+    const uniquePrefix = `${deploymentEnvironment}-crux-route`;
     const userPoolDomain = this.userPool.addDomain("default", {
       cognitoDomain: {
         domainPrefix: uniquePrefix,
@@ -79,7 +85,7 @@ export class CreateCruxRouteCognitoStack extends Stack {
 
     this.userPoolClient = new UserPoolClient(
       this,
-      `crux-route-user-pool-client`,
+      `${deploymentEnvironment}-CruxRouteUserPoolClient`,
       {
         userPool: this.userPool,
         authFlows: {
