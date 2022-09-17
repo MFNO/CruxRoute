@@ -22,7 +22,7 @@ export class SignInComponent {
     this.cognitoService
       .signIn(this.user)
       .then(() => {
-        this.router.navigate(['/profile']);
+        this.router.navigate(['/calendar']);
       })
       .catch(() => {
         this.loading = false;

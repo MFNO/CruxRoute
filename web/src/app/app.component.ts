@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationStart, Router } from '@angular/router';
 import { CognitoService } from './cognito.service';
 
 @Component({
@@ -17,13 +17,19 @@ export class AppComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.cognitoService.isAuthenticated().then((success: boolean) => {
-      this.isAuthenticated = success;
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationStart) {
+        console.log(event.url);
+        this.cognitoService.isAuthenticated().then((success: boolean) => {
+          this.isAuthenticated = success;
+        });
+      }
     });
   }
 
   public signOut(): void {
     this.cognitoService.signOut().then(() => {
+      this.isAuthenticated = false;
       this.router.navigate(['/signIn']);
     });
   }

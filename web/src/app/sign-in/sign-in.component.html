@@ -32,13 +32,10 @@
                 class="btn btn-outline-secondary"
                 (click)="user.showPassword = !user.showPassword"
               >
-                <i
-                  class="bi"
-                  [ngClass]="{
-                    'bi-eye-fill': !user.showPassword,
-                    'bi-eye-slash-fill': user.showPassword
-                  }"
-                ></i>
+                <mat-icon
+                  aria-hidden="false"
+                  [attr.fontIcon]="!user.showPassword ? 'visibility' : 'visibility_off'"
+                ></mat-icon>
               </button>
             </div>
           </div>
@@ -65,4 +62,3 @@
     </div>
   </div>
 </div>
-view raw angular-cognito-step13.html hosted with ❤ by GitHub

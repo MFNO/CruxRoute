@@ -1,8 +1,6 @@
-<app-calendar-month-view></app-calendar-month-view>
-
 <nav class="navbar navbar-expand-sm navbar-light bg-light">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">Angular Amazon Cognito</a>
+    <a class="navbar-brand" href="#">Crux Route</a>
 
     <button
       class="navbar-toggler"
@@ -43,6 +41,15 @@
             routerLinkActive="active"
             *ngIf="isAuthenticated"
             >Profile</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            routerLink="/calendar"
+            routerLinkActive="active"
+            *ngIf="isAuthenticated"
+            >Calendar</a
           >
         </li>
         <li class="nav-item">

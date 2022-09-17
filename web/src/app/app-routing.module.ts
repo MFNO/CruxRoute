@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { CalendarMonthViewComponent } from './calendar-month-view/calendar-month-view.component';
 
 import { ProfileComponent } from './profile/profile.component';
 import { SignInComponent } from './sign-in/sign-in.component';
@@ -14,6 +15,10 @@ const routes: Routes = [
   {
     path: 'profile',
     component: ProfileComponent,
+  },
+  {
+    path: 'calendar',
+    component: CalendarMonthViewComponent,
   },
   {
     path: 'signIn',
