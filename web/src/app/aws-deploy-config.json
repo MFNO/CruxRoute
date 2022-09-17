@@ -1,5 +1,11 @@
 {
   "CruxRouteLambdaStack": {
     "HttpApiUrl": "https://6y9nqfbzrj.execute-api.us-east-1.amazonaws.com"
+  },
+  "DevCruxRouteCognito": {
+    "userPoolClientId": "7q00g1rkaq2i16n1177bsff2qv",
+    "userPoolDomain": "crux-route",
+    "cognitoOauthUrl": "https://crux-route.auth.us-east-1.amazoncognito.com/oauth2/authorize?response_type=token&client_id=7q00g1rkaq2i16n1177bsff2qv&redirect_uri=http://localhost:4000/",
+    "userPoolId": "us-east-1_BToOC3T5x"
   }
 }

@@ -23,6 +23,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { EventDisplayComponent } from './event-display/event-display.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { DeleteTrainingEventDialogComponent } from './delete-training-event-dialog/delete-training-event-dialog.component';
+import { SignUpComponent } from './sign-up/sign-up.component';
+import { FormsModule } from '@angular/forms';
+import { ProfileComponent } from './profile/profile.component';
+import { SignInComponent } from './sign-in/sign-in.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +35,9 @@ import { DeleteTrainingEventDialogComponent } from './delete-training-event-dial
     AddTraingEventDialogComponent,
     EventDisplayComponent,
     DeleteTrainingEventDialogComponent,
+    SignUpComponent,
+    ProfileComponent,
+    SignInComponent,
   ],
   imports: [
     CommonModule,
@@ -44,6 +51,7 @@ import { DeleteTrainingEventDialogComponent } from './delete-training-event-dial
     }),
     NgbModule,
     CalendarMonthViewComponentsModule,
+    FormsModule,
     ReactiveFormsModule,
     MatDatepickerModule,
     MatMomentDateModule,

@@ -10,7 +10,7 @@
     "test": "jest",
     "cdk:synth": "cdk synth --profile CruxRouteAdmin",
     "cdk:bootstrap": "cdk bootstrap --profile CruxRouteAdmin",
-    "cdk:deploy": "cdk deploy --profile CruxRouteAdmin --outputs-file ../web/src/app/aws-deploy-config.json"
+    "cdk:deploy": "cdk deploy CreateCruxRouteLambdaStack CreateDevCruxRouteCognito --profile CruxRouteAdmin --require-approval never --progress events --outputs-file ../web/src/app/aws-deploy-config.json"
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.104",
