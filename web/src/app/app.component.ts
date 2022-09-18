@@ -30,14 +30,9 @@ export class AppComponent implements OnInit, OnDestroy {
       this.router.events.subscribe((event) => {
         if (event instanceof NavigationStart) {
           this.url = event.url;
-          this.cognitoService
-            .isAuthenticated()
-            .then((success: boolean) => {
-              this.isAuthenticated = success;
-            })
-            .catch((err) => {
-              this.isAuthenticated = false;
-            });
+          this.cognitoService.isAuthenticated().then((success: boolean) => {
+            this.isAuthenticated = success;
+          });
         }
       })
     );
