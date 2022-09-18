@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { CalendarEvent, CalendarView } from 'angular-calendar';
 import { colors } from '../shared/colors';
-import { EventService } from './services/event.service';
+import { EventService } from '../services/event.service';
 import { TrainingEvent } from '../shared/training-event';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { AddTraingEventDialogComponent } from '../add-training-event-dialog/add-training-event-dialog.component';
-import { CognitoService } from '../cognito.service';
+import { CognitoService } from '../services/cognito.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -22,6 +22,8 @@ export class CalendarMonthViewComponent implements OnInit {
 
   viewDate: Date = new Date();
 
+  user: any;
+
   events: CalendarEvent<{ trainingEvent: TrainingEvent }>[];
 
   activeDayIsOpen: boolean = false;
@@ -34,17 +36,20 @@ export class CalendarMonthViewComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.cognitoService.getUser().then((user: any) => {
+      this.user = user.attributes;
+      this.fetchEvents();
+    });
     this.cognitoService.isAuthenticated().then((success: boolean) => {
       console.log(success);
       if (!success) {
         this.router.navigate(['/signIn']);
       }
     });
-    this.fetchEvents();
   }
 
   fetchEvents(): void {
-    this.eventService.getEvents().subscribe((events) => {
+    this.eventService.getEvents(this.user.sub).subscribe((events) => {
       this.events = events.map((trainingEvent: TrainingEvent) => {
         return {
           id: trainingEvent.id,

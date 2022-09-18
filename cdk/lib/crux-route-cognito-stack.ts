@@ -107,7 +107,7 @@ export class CreateCruxRouteCognitoStack extends Stack {
       value: this.userPool.userPoolId,
     });
 
-    new CfnOutput(this, "userPoolClientId", {
+    new CfnOutput(this, "userPoolWebClientId", {
       value: this.userPoolClient.userPoolClientId,
     });
 

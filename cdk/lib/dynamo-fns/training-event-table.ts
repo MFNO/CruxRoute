@@ -10,6 +10,10 @@ const schema = {
       hash: "id",
       sort: "personId",
     },
+    gs1: {
+      hash: "personId",
+      sort: "id",
+    },
   },
   models: {
     TrainingEvent: {

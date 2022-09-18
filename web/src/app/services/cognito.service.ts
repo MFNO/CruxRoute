@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { Amplify, Auth } from 'aws-amplify';
 
-import { environment } from '../environments/environment';
+import AwsSettings from '../aws-deploy-dev-config.json';
 
 export interface IUser {
   email: string;
@@ -20,7 +20,7 @@ export class CognitoService {
 
   constructor() {
     Amplify.configure({
-      Auth: environment.cognito,
+      Auth: AwsSettings.DevCruxRouteCognito,
     });
 
     this.authenticationSubject = new BehaviorSubject<boolean>(false);
@@ -50,7 +50,6 @@ export class CognitoService {
       })
       .catch((err) => {
         console.log(err);
-        this.authenticationSubject.next(false);
       });
   }
 

@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { EventService } from '../calendar-month-view/services/event.service';
+import { EventService } from '../services/event.service';
 
 @Component({
   selector: 'app-delete-training-event-dialog',

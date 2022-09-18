@@ -1,8 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { EventService } from '../calendar-month-view/services/event.service';
-import { CognitoService } from '../cognito.service';
+import { EventService } from '../services/event.service';
+import { CognitoService } from '../services/cognito.service';
 import { TrainingEvent } from '../shared/training-event';
 
 @Component({

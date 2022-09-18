@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
-import { CognitoService } from './cognito.service';
+import { CognitoService } from './services/cognito.service';
 
 @Component({
   selector: 'app-root',
@@ -22,9 +22,14 @@ export class AppComponent implements OnInit {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationStart) {
         this.url = event.url;
-        this.cognitoService.isAuthenticated().then((success: boolean) => {
-          this.isAuthenticated = success;
-        });
+        this.cognitoService
+          .isAuthenticated()
+          .then((success: boolean) => {
+            this.isAuthenticated = success;
+          })
+          .catch((err) => {
+            this.isAuthenticated = false;
+          });
       }
     });
   }
@@ -37,8 +42,6 @@ export class AppComponent implements OnInit {
       .then(() => {
         this.router.navigate(['/signIn']);
       })
-      .catch((error) => {
-        this.router.navigate(['/signIn']);
-      });
+      .catch((error) => {});
   }
 }

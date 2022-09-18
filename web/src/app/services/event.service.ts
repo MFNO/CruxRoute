@@ -1,9 +1,9 @@
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { TrainingEvent } from '../../shared/training-event';
+import { TrainingEvent } from '../shared/training-event';
 import { Observable, throwError } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
-import AwsSettings from '../../aws-deploy-dev-config.json';
+import AwsSettings from '../aws-deploy-dev-config.json';
 
 @Injectable({
   providedIn: 'root',
@@ -17,9 +17,9 @@ export class EventService {
     }),
   };
 
-  getEvents(): Observable<TrainingEvent[]> {
+  getEvents(personId: string): Observable<TrainingEvent[]> {
     return this.http.get<TrainingEvent[]>(
-      AwsSettings.DevCruxRouteLambdaStack.HttpApiUrl + '/events'
+      AwsSettings.DevCruxRouteLambdaStack.HttpApiUrl + '/events/' + personId
     );
   }
 
