@@ -36,7 +36,7 @@
   </div>
 </ng-template>
 
-<div *ngIf="isLoaded; else loading">
+<div class="calendar-container" *ngIf="isLoaded; else loading">
   <div [ngSwitch]="view">
     <mwl-calendar-month-view
       *ngSwitchCase="'month'"

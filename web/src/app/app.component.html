@@ -14,7 +14,10 @@
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div id="navbarContent" class="collapse navbar-collapse">
+    <div
+      id="navbarContent"
+      class="collapse navbar-collapse justify-content-between"
+    >
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
           <a
@@ -37,31 +40,34 @@
         <li class="nav-item">
           <a
             class="nav-link"
-            routerLink="/profile"
-            routerLinkActive="active"
-            *ngIf="isAuthenticated"
-            >Profile</a
-          >
-        </li>
-        <li class="nav-item">
-          <a
-            class="nav-link"
             routerLink="/calendar"
             routerLinkActive="active"
             *ngIf="isAuthenticated"
             >Calendar</a
           >
         </li>
-        <li class="nav-item">
+        <li class="nav-item"></li>
+      </ul>
+      <div *ngIf="isAuthenticated" class="my-profile-container">
+        <button mat-button [matMenuTriggerFor]="menu">My Profile</button>
+        <mat-menu #menu="matMenu">
           <a
+            mat-menu-item
+            class="nav-link"
+            routerLink="/profile"
+            routerLinkActive="active"
+            >Profile Settings</a
+          >
+          <a
+            mat-menu-item
             class="nav-link"
             routerLink=""
             (click)="signOut()"
             *ngIf="isAuthenticated"
             >Sign out</a
           >
-        </li>
-      </ul>
+        </mat-menu>
+      </div>
     </div>
   </div>
 </nav>

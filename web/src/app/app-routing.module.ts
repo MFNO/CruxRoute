@@ -9,7 +9,7 @@ import { SignUpComponent } from './sign-up/sign-up.component';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'signIn',
+    redirectTo: 'calendar',
     pathMatch: 'full',
   },
   {
@@ -30,7 +30,7 @@ const routes: Routes = [
   },
   {
     path: '**',
-    redirectTo: 'signIn',
+    redirectTo: 'calendar',
   },
 ];
 

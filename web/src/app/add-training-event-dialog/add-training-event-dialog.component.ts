@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { EventService } from '../calendar-month-view/services/event.service';
+import { CognitoService } from '../cognito.service';
 import { TrainingEvent } from '../shared/training-event';
 
 @Component({
@@ -12,6 +13,7 @@ import { TrainingEvent } from '../shared/training-event';
 export class AddTraingEventDialogComponent implements OnInit {
   isUpdating: boolean = false;
   currentDate: string;
+  user: any;
 
   trainingEventForm = new FormGroup({
     date: new FormControl(''),
@@ -21,9 +23,13 @@ export class AddTraingEventDialogComponent implements OnInit {
   constructor(
     private eventService: EventService,
     private dialogRef: MatDialogRef<AddTraingEventDialogComponent>,
+    private cognitoService: CognitoService,
     @Inject(MAT_DIALOG_DATA) data: any
   ) {
     this.trainingEventForm.controls['date'].setValue(data.date);
+    this.cognitoService.getUser().then((user: any) => {
+      this.user = user.attributes;
+    });
   }
 
   ngOnInit(): void {}
@@ -48,10 +54,12 @@ export class AddTraingEventDialogComponent implements OnInit {
     this.isUpdating = true;
     const date = this.trainingEventForm.get('date')!.value;
     const description = this.trainingEventForm.get('description')!.value;
-    if (date && description) {
+    const personId = this.user.sub;
+
+    if (date && description && personId) {
       const trainingEvent: TrainingEvent = {
         id: this.makeid(10),
-        personId: '1',
+        personId: personId,
         date: date,
         description: description,
       };

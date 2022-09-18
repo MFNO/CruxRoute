@@ -35,8 +35,9 @@ export class CalendarMonthViewComponent implements OnInit {
 
   ngOnInit(): void {
     this.cognitoService.isAuthenticated().then((success: boolean) => {
+      console.log(success);
       if (!success) {
-        this.router.navigate(['/sigin']);
+        this.router.navigate(['/signIn']);
       }
     });
     this.fetchEvents();
