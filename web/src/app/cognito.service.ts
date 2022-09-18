@@ -44,9 +44,14 @@ export class CognitoService {
   }
 
   public signOut(): Promise<any> {
-    return Auth.signOut().then(() => {
-      this.authenticationSubject.next(false);
-    });
+    return Auth.signOut()
+      .then(() => {
+        this.authenticationSubject.next(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        this.authenticationSubject.next(false);
+      });
   }
 
   public isAuthenticated(): Promise<boolean> {

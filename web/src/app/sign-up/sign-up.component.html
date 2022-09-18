@@ -32,13 +32,12 @@
                 class="btn btn-outline-secondary"
                 (click)="user.showPassword = !user.showPassword"
               >
-                <i
-                  class="bi"
-                  [ngClass]="{
-                    'bi-eye-fill': !user.showPassword,
-                    'bi-eye-slash-fill': user.showPassword
-                  }"
-                ></i>
+                <mat-icon
+                  aria-hidden="false"
+                  [attr.fontIcon]="
+                    !user.showPassword ? 'visibility' : 'visibility_off'
+                  "
+                ></mat-icon>
               </button>
             </div>
           </div>
@@ -58,6 +57,14 @@
                 *ngIf="loading"
               ></span>
               Sign up
+            </button>
+            <button
+              type="button"
+              routerLink="/signIn"
+              routerLinkActive="active"
+              class="btn btn-sm btn-primary"
+            >
+              Sign In
             </button>
           </div>
         </div>

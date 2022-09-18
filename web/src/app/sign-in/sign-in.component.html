@@ -34,7 +34,9 @@
               >
                 <mat-icon
                   aria-hidden="false"
-                  [attr.fontIcon]="!user.showPassword ? 'visibility' : 'visibility_off'"
+                  [attr.fontIcon]="
+                    !user.showPassword ? 'visibility' : 'visibility_off'
+                  "
                 ></mat-icon>
               </button>
             </div>
@@ -55,6 +57,14 @@
                 *ngIf="loading"
               ></span>
               Sign in
+            </button>
+            <button
+              type="button"
+              routerLink="/signUp"
+              routerLinkActive="active"
+              class="btn btn-sm btn-primary"
+            >
+              Sign Up
             </button>
           </div>
         </div>

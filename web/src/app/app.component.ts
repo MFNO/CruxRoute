@@ -10,6 +10,8 @@ import { CognitoService } from './cognito.service';
 export class AppComponent implements OnInit {
   title = 'crux-route';
 
+  url: string;
+
   isAuthenticated: boolean;
 
   constructor(private router: Router, private cognitoService: CognitoService) {
@@ -19,7 +21,7 @@ export class AppComponent implements OnInit {
   public ngOnInit(): void {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationStart) {
-        console.log(event.url);
+        this.url = event.url;
         this.cognitoService.isAuthenticated().then((success: boolean) => {
           this.isAuthenticated = success;
         });
@@ -28,9 +30,15 @@ export class AppComponent implements OnInit {
   }
 
   public signOut(): void {
-    this.cognitoService.signOut().then(() => {
-      this.isAuthenticated = false;
-      this.router.navigate(['/signIn']);
-    });
+    this.isAuthenticated = false;
+    console.log(this.isAuthenticated);
+    this.cognitoService
+      .signOut()
+      .then(() => {
+        this.router.navigate(['/signIn']);
+      })
+      .catch((error) => {
+        this.router.navigate(['/signIn']);
+      });
   }
 }
