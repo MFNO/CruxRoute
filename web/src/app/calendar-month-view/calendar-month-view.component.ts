@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CalendarEvent, CalendarView } from 'angular-calendar';
 import { colors } from '../shared/colors';
 import { EventService } from '../services/event.service';
@@ -7,13 +7,14 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { AddTraingEventDialogComponent } from '../add-training-event-dialog/add-training-event-dialog.component';
 import { CognitoService } from '../services/cognito.service';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-calendar-month-view',
   templateUrl: './calendar-month-view.component.html',
   styleUrls: ['./calendar-month-view.component.scss'],
 })
-export class CalendarMonthViewComponent implements OnInit {
+export class CalendarMonthViewComponent implements OnInit, OnDestroy {
   TrainingEvents: any = [];
 
   isLoaded: boolean = false;
@@ -28,6 +29,12 @@ export class CalendarMonthViewComponent implements OnInit {
 
   activeDayIsOpen: boolean = false;
 
+  subscriptions: Subscription[] = [];
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach((res) => res.unsubscribe());
+  }
+
   constructor(
     private eventService: EventService,
     private dialog: MatDialog,
@@ -40,27 +47,23 @@ export class CalendarMonthViewComponent implements OnInit {
       this.user = user.attributes;
       this.fetchEvents();
     });
-    this.cognitoService.isAuthenticated().then((success: boolean) => {
-      console.log(success);
-      if (!success) {
-        this.router.navigate(['/signIn']);
-      }
-    });
   }
 
   fetchEvents(): void {
-    this.eventService.getEvents(this.user.sub).subscribe((events) => {
-      this.events = events.map((trainingEvent: TrainingEvent) => {
-        return {
-          id: trainingEvent.id,
-          title: trainingEvent.description,
-          start: new Date(trainingEvent.date),
-          color: colors.yellow,
-          allDay: true,
-        };
-      });
-      this.isLoaded = true;
-    });
+    this.subscriptions.push(
+      this.eventService.getEvents(this.user.sub).subscribe((events) => {
+        this.events = events.map((trainingEvent: TrainingEvent) => {
+          return {
+            id: trainingEvent.id,
+            title: trainingEvent.description,
+            start: new Date(trainingEvent.date),
+            color: colors.yellow,
+            allDay: true,
+          };
+        });
+        this.isLoaded = true;
+      })
+    );
   }
 
   openDialog(currentDate: Date) {
@@ -74,8 +77,10 @@ export class CalendarMonthViewComponent implements OnInit {
       dialogConfig
     );
 
-    dialogRef.afterClosed().subscribe(() => {
-      this.fetchEvents();
-    });
+    this.subscriptions.push(
+      dialogRef.afterClosed().subscribe(() => {
+        this.fetchEvents();
+      })
+    );
   }
 }

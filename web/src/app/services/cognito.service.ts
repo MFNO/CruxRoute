@@ -3,6 +3,7 @@ import { BehaviorSubject } from 'rxjs';
 import { Amplify, Auth } from 'aws-amplify';
 
 import AwsSettings from '../aws-deploy-dev-config.json';
+import { Router } from '@angular/router';
 
 export interface IUser {
   email: string;
@@ -18,7 +19,7 @@ export interface IUser {
 export class CognitoService {
   private authenticationSubject: BehaviorSubject<any>;
 
-  constructor() {
+  constructor(private router: Router) {
     Amplify.configure({
       Auth: AwsSettings.DevCruxRouteCognito,
     });
@@ -44,13 +45,9 @@ export class CognitoService {
   }
 
   public signOut(): Promise<any> {
-    return Auth.signOut()
-      .then(() => {
-        this.authenticationSubject.next(false);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    return Auth.signOut({ global: true }).then(() => {
+      this.authenticationSubject.next(false);
+    });
   }
 
   public isAuthenticated(): Promise<boolean> {

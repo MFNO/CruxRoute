@@ -1,5 +1,13 @@
-import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Inject,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Subscription } from 'rxjs';
 import { EventService } from '../services/event.service';
 
 @Component({
@@ -7,11 +15,17 @@ import { EventService } from '../services/event.service';
   templateUrl: './delete-training-event-dialog.component.html',
   styleUrls: ['./delete-training-event-dialog.component.scss'],
 })
-export class DeleteTrainingEventDialogComponent implements OnInit {
+export class DeleteTrainingEventDialogComponent implements OnInit, OnDestroy {
   isUpdating: boolean = false;
   personId: string;
   eventId: string;
   eventDescription: string;
+
+  subscriptions: Subscription[] = [];
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach((res) => res.unsubscribe());
+  }
 
   constructor(
     private eventService: EventService,
@@ -31,10 +45,12 @@ export class DeleteTrainingEventDialogComponent implements OnInit {
 
   deleteEvent(): void {
     this.isUpdating = true;
-    this.eventService
-      .deleteEvent(this.eventId, this.personId)
-      .subscribe((resp) => {
-        this.dialogRef.close();
-      });
+    this.subscriptions.push(
+      this.eventService
+        .deleteEvent(this.eventId, this.personId)
+        .subscribe((resp) => {
+          this.dialogRef.close();
+        })
+    );
   }
 }

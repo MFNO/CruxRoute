@@ -6,19 +6,23 @@ import { ProfileComponent } from './profile/profile.component';
 import { SignInComponent } from './sign-in/sign-in.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
 
+import { AuthGuard } from './guards/index';
+
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'calendar',
-    pathMatch: 'full',
+    component: CalendarMonthViewComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: 'profile',
     component: ProfileComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: 'calendar',
     component: CalendarMonthViewComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: 'signIn',
@@ -30,7 +34,7 @@ const routes: Routes = [
   },
   {
     path: '**',
-    redirectTo: 'calendar',
+    redirectTo: '',
   },
 ];
 
