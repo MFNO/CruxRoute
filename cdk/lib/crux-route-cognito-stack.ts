@@ -1,6 +1,8 @@
 import { RemovalPolicy, CfnOutput, Stack, StackProps } from "aws-cdk-lib";
 import {
+  BooleanAttribute,
   ClientAttributes,
+  StringAttribute,
   UserPool,
   UserPoolClient,
   UserPoolClientIdentityProvider,
@@ -38,6 +40,9 @@ export class CreateCruxRouteCognitoStack extends Stack {
         autoVerify: {
           email: true,
         },
+        customAttributes: {
+          cruxRouteRole: new StringAttribute({ mutable: true }),
+        },
         removalPolicy: RemovalPolicy.RETAIN,
       }
     );
@@ -71,17 +76,17 @@ export class CreateCruxRouteCognitoStack extends Stack {
       website: true,
     };
 
-    const clientReadAttributes = new ClientAttributes().withStandardAttributes(
-      standardCognitoAttributes
-    );
+    const clientReadAttributes = new ClientAttributes()
+      .withStandardAttributes(standardCognitoAttributes)
+      .withCustomAttributes(...["cruxRouteRole"]);
 
-    const clientWriteAttributes = new ClientAttributes().withStandardAttributes(
-      {
+    const clientWriteAttributes = new ClientAttributes()
+      .withStandardAttributes({
         ...standardCognitoAttributes,
         emailVerified: false,
         phoneNumberVerified: false,
-      }
-    );
+      })
+      .withCustomAttributes(...["cruxRouteRole"]);
 
     this.userPoolClient = new UserPoolClient(
       this,

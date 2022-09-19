@@ -13,22 +13,22 @@ const app = new cdk.App();
 
 const devCognitoStack = new CreateCruxRouteCognitoStack(
   app,
-  "DevCreateCruxRouteCognito",
+  "dev-CreateCruxRouteCognito",
   {
     env: envCruxRoute,
     deploymentEnvironment: "dev",
-    stackName: "DevCruxRouteCognito",
+    stackName: "dev-CruxRouteCognito",
     callbackUrls: ["http://localhost:4000/"],
     logoutUrls: [],
   }
 );
 
-new CreateCruxRouteLambdaStack(app, "DevCreateCruxRouteLambdaStack", {
+new CreateCruxRouteLambdaStack(app, "dev-CreateCruxRouteLambdaStack", {
   userPool: devCognitoStack.userPool,
   userPoolClient: devCognitoStack.userPoolClient,
   env: envCruxRoute,
   deploymentEnvironment: "dev",
-  stackName: "DevCruxRouteLambdaStack",
+  stackName: "dev-CruxRouteLambdaStack",
   apiCorsAllowedOrigins: [
     "http://localhost:4200",
     "http://cruxroutebucket.s3-website-us-east-1.amazonaws.com",
@@ -37,22 +37,22 @@ new CreateCruxRouteLambdaStack(app, "DevCreateCruxRouteLambdaStack", {
 
 const prodCognitoStack = new CreateCruxRouteCognitoStack(
   app,
-  "ProdCreateCruxRouteCognito",
+  "prod-CreateCruxRouteCognito",
   {
     env: envCruxRoute,
     deploymentEnvironment: "prod",
-    stackName: "ProdCruxRouteCognito",
+    stackName: "prod-CruxRouteCognito",
     callbackUrls: ["http://cruxroutebucket.s3-website-us-east-1.amazonaws.com"],
     logoutUrls: [],
   }
 );
 
-new CreateCruxRouteLambdaStack(app, "ProdCreateCruxRouteLambdaStack", {
+new CreateCruxRouteLambdaStack(app, "prod-CreateCruxRouteLambdaStack", {
   userPool: prodCognitoStack.userPool,
   userPoolClient: prodCognitoStack.userPoolClient,
   env: envCruxRoute,
   deploymentEnvironment: "prod",
-  stackName: "ProdCruxRouteLambdaStack",
+  stackName: "prod-CruxRouteLambdaStack",
   apiCorsAllowedOrigins: [
     "http://cruxroutebucket.s3-website-us-east-1.amazonaws.com",
   ],
