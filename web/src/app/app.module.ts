@@ -31,6 +31,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatMenuModule } from '@angular/material/menu';
 import { AuthGuard } from './guards';
 import { BaseComponent } from './base/base.component';
+import { AtheleteOverviewComponent } from './athelete-overview/athelete-overview.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { BaseComponent } from './base/base.component';
     SignUpComponent,
     ProfileComponent,
     SignInComponent,
+    AtheleteOverviewComponent,
   ],
   imports: [
     CommonModule,

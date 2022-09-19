@@ -1,11 +1,11 @@
 {
   "DevCruxRouteCognito": {
-    "userPoolWebClientId": "75ml0moepuvrh1ucljmc5fgg96",
+    "userPoolWebClientId": "71cis7a06g2ijp11t19buqrtnb",
     "userPoolDomain": "dev-crux-route",
-    "cognitoOauthUrl": "https://dev-crux-route.auth.us-east-1.amazoncognito.com/oauth2/authorize?response_type=token&client_id=75ml0moepuvrh1ucljmc5fgg96&redirect_uri=http://localhost:4000/",
-    "userPoolId": "us-east-1_kcm326VCS"
+    "cognitoOauthUrl": "https://dev-crux-route.auth.us-east-1.amazoncognito.com/oauth2/authorize?response_type=token&client_id=71cis7a06g2ijp11t19buqrtnb&redirect_uri=http://localhost:4000/",
+    "userPoolId": "us-east-1_naRycZFUC"
   },
   "DevCruxRouteLambdaStack": {
-    "HttpApiUrl": "https://uk8bc72tl6.execute-api.us-east-1.amazonaws.com"
+    "HttpApiUrl": "https://vpre6fuso7.execute-api.us-east-1.amazonaws.com"
   }
 }

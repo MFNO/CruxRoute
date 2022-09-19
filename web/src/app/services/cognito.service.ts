@@ -11,6 +11,7 @@ export interface IUser {
   showPassword: boolean;
   code: string;
   name: string;
+  cruxRouteRole: string;
 }
 
 @Injectable({
@@ -31,6 +32,9 @@ export class CognitoService {
     return Auth.signUp({
       username: user.email,
       password: user.password,
+      attributes: {
+        ['custom:cruxRouteRole']: String(user.cruxRouteRole),
+      },
     });
   }
 

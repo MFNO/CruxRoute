@@ -37,9 +37,13 @@ export class SignUpComponent {
     this.cognitoService
       .confirmSignUp(this.user)
       .then(() => {
-        this.loading = false;
+        this.cognitoService.signIn(this.user).then(() => {
+          this.loading = false;
+          this.router.navigate(['/calender']);
+        });
       })
-      .catch(() => {
+      .catch((err) => {
+        console.log(err);
         this.loading = false;
       });
   }

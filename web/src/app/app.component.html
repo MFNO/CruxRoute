@@ -46,6 +46,15 @@
             >Calendar</a
           >
         </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            routerLink="/athletes"
+            routerLinkActive="active"
+            *ngIf="isAuthenticated"
+            >Athletes</a
+          >
+        </li>
         <li class="nav-item"></li>
       </ul>
       <div *ngIf="isAuthenticated" class="my-profile-container">
