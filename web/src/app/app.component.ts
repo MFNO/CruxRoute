@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Subscription, takeUntil } from 'rxjs';
+import { BaseComponent } from './base/base.component';
 import { CognitoService } from './services/cognito.service';
 
 @Component({
@@ -8,34 +9,27 @@ import { CognitoService } from './services/cognito.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements OnInit, OnDestroy {
+export class AppComponent extends BaseComponent implements OnInit, OnDestroy {
   title = 'crux-route';
 
   url: string;
 
   isAuthenticated: boolean;
 
-  subscriptions: Subscription[] = [];
-
   constructor(private router: Router, private cognitoService: CognitoService) {
+    super();
     this.isAuthenticated = false;
   }
 
-  public ngOnDestroy(): void {
-    this.subscriptions.forEach((res) => res.unsubscribe());
-  }
-
   public ngOnInit(): void {
-    this.subscriptions.push(
-      this.router.events.subscribe((event) => {
-        if (event instanceof NavigationStart) {
-          this.url = event.url;
-          this.cognitoService.isAuthenticated().then((success: boolean) => {
-            this.isAuthenticated = success;
-          });
-        }
-      })
-    );
+    this.router.events.pipe(takeUntil(this.onDestroy$)).subscribe((event) => {
+      if (event instanceof NavigationStart) {
+        this.url = event.url;
+        this.cognitoService.isAuthenticated().then((success: boolean) => {
+          this.isAuthenticated = success;
+        });
+      }
+    });
   }
 
   public signOut(): void {

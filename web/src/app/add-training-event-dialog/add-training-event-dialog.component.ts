@@ -4,18 +4,21 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { EventService } from '../services/event.service';
 import { CognitoService } from '../services/cognito.service';
 import { TrainingEvent } from '../shared/training-event';
-import { Subscription } from 'rxjs';
+import { Subscription, takeUntil } from 'rxjs';
+import { BaseComponent } from '../base/base.component';
 
 @Component({
   selector: 'app-add-training-event-dialog',
   templateUrl: './add-training-event-dialog.component.html',
   styleUrls: ['./add-training-event-dialog.component.scss'],
 })
-export class AddTraingEventDialogComponent implements OnDestroy {
+export class AddTraingEventDialogComponent
+  extends BaseComponent
+  implements OnDestroy
+{
   isUpdating: boolean = false;
   currentDate: string;
   user: any;
-  subscriptions: Subscription[] = [];
 
   trainingEventForm = new FormGroup({
     date: new FormControl(''),
@@ -28,14 +31,11 @@ export class AddTraingEventDialogComponent implements OnDestroy {
     private cognitoService: CognitoService,
     @Inject(MAT_DIALOG_DATA) data: any
   ) {
+    super();
     this.trainingEventForm.controls['date'].setValue(data.date);
     this.cognitoService.getUser().then((user: any) => {
       this.user = user.attributes;
     });
-  }
-
-  ngOnDestroy(): void {
-    this.subscriptions.forEach((res) => res.unsubscribe());
   }
 
   //for testing purposes only, will have to be moved to back-end
@@ -67,11 +67,12 @@ export class AddTraingEventDialogComponent implements OnDestroy {
         date: date,
         description: description,
       };
-      this.subscriptions.push(
-        this.eventService.postEvent(trainingEvent).subscribe((resp) => {
+      this.eventService
+        .postEvent(trainingEvent)
+        .pipe(takeUntil(this.onDestroy$))
+        .subscribe((resp) => {
           this.dialogRef.close();
-        })
-      );
+        });
     }
   }
 }

@@ -30,6 +30,7 @@ import { SignInComponent } from './sign-in/sign-in.component';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatMenuModule } from '@angular/material/menu';
 import { AuthGuard } from './guards';
+import { BaseComponent } from './base/base.component';
 
 @NgModule({
   declarations: [

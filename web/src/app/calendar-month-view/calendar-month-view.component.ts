@@ -7,14 +7,18 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { AddTraingEventDialogComponent } from '../add-training-event-dialog/add-training-event-dialog.component';
 import { CognitoService } from '../services/cognito.service';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { takeUntil } from 'rxjs';
+import { BaseComponent } from '../base/base.component';
 
 @Component({
   selector: 'app-calendar-month-view',
   templateUrl: './calendar-month-view.component.html',
   styleUrls: ['./calendar-month-view.component.scss'],
 })
-export class CalendarMonthViewComponent implements OnInit, OnDestroy {
+export class CalendarMonthViewComponent
+  extends BaseComponent
+  implements OnInit, OnDestroy
+{
   TrainingEvents: any = [];
 
   isLoaded: boolean = false;
@@ -29,18 +33,14 @@ export class CalendarMonthViewComponent implements OnInit, OnDestroy {
 
   activeDayIsOpen: boolean = false;
 
-  subscriptions: Subscription[] = [];
-
-  ngOnDestroy(): void {
-    this.subscriptions.forEach((res) => res.unsubscribe());
-  }
-
   constructor(
     private eventService: EventService,
     private dialog: MatDialog,
     private cognitoService: CognitoService,
     private router: Router
-  ) {}
+  ) {
+    super();
+  }
 
   ngOnInit(): void {
     this.cognitoService.getUser().then((user: any) => {
@@ -50,8 +50,10 @@ export class CalendarMonthViewComponent implements OnInit, OnDestroy {
   }
 
   fetchEvents(): void {
-    this.subscriptions.push(
-      this.eventService.getEvents(this.user.sub).subscribe((events) => {
+    this.eventService
+      .getEvents(this.user.sub)
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe((events) => {
         this.events = events.map((trainingEvent: TrainingEvent) => {
           return {
             id: trainingEvent.id,
@@ -62,8 +64,7 @@ export class CalendarMonthViewComponent implements OnInit, OnDestroy {
           };
         });
         this.isLoaded = true;
-      })
-    );
+      });
   }
 
   openDialog(currentDate: Date) {
@@ -77,10 +78,11 @@ export class CalendarMonthViewComponent implements OnInit, OnDestroy {
       dialogConfig
     );
 
-    this.subscriptions.push(
-      dialogRef.afterClosed().subscribe(() => {
+    dialogRef
+      .afterClosed()
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe(() => {
         this.fetchEvents();
-      })
-    );
+      });
   }
 }

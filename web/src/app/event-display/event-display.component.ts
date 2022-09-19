@@ -11,26 +11,27 @@ import { CalendarEvent } from 'angular-calendar';
 import { EventService } from '../services/event.service';
 import { DeleteTrainingEventDialogComponent } from '../delete-training-event-dialog/delete-training-event-dialog.component';
 import { CognitoService } from '../services/cognito.service';
-import { Subscription } from 'rxjs';
+import { Subscription, takeUntil } from 'rxjs';
+import { BaseComponent } from '../base/base.component';
 
 @Component({
   selector: 'app-event-display',
   templateUrl: './event-display.component.html',
   styleUrls: ['./event-display.component.scss'],
 })
-export class EventDisplayComponent implements OnInit, OnDestroy {
+export class EventDisplayComponent
+  extends BaseComponent
+  implements OnInit, OnDestroy
+{
   @Input() event: CalendarEvent;
   @Output('fetchEvent') fetchEvents: EventEmitter<any> = new EventEmitter();
-  subscriptions: Subscription[] = [];
 
-  ngOnDestroy(): void {
-    this.subscriptions.forEach((res) => res.unsubscribe());
-  }
   user: any;
   constructor(
     private cognitoService: CognitoService,
     private dialog: MatDialog
   ) {
+    super();
     this.cognitoService.getUser().then((user: any) => {
       this.user = user.attributes;
     });
@@ -55,10 +56,11 @@ export class EventDisplayComponent implements OnInit, OnDestroy {
       dialogConfig
     );
 
-    this.subscriptions.push(
-      dialogRef.afterClosed().subscribe(() => {
+    dialogRef
+      .afterClosed()
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe(() => {
         this.fetchEvents.emit();
-      })
-    );
+      });
   }
 }

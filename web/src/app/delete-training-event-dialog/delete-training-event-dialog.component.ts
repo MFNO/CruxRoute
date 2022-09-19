@@ -1,13 +1,7 @@
-import {
-  Component,
-  EventEmitter,
-  Inject,
-  OnDestroy,
-  OnInit,
-  Output,
-} from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Subscription } from 'rxjs';
+import { takeUntil } from 'rxjs';
+import { BaseComponent } from '../base/base.component';
 import { EventService } from '../services/event.service';
 
 @Component({
@@ -15,23 +9,21 @@ import { EventService } from '../services/event.service';
   templateUrl: './delete-training-event-dialog.component.html',
   styleUrls: ['./delete-training-event-dialog.component.scss'],
 })
-export class DeleteTrainingEventDialogComponent implements OnInit, OnDestroy {
+export class DeleteTrainingEventDialogComponent
+  extends BaseComponent
+  implements OnInit, OnDestroy
+{
   isUpdating: boolean = false;
   personId: string;
   eventId: string;
   eventDescription: string;
-
-  subscriptions: Subscription[] = [];
-
-  ngOnDestroy(): void {
-    this.subscriptions.forEach((res) => res.unsubscribe());
-  }
 
   constructor(
     private eventService: EventService,
     private dialogRef: MatDialogRef<DeleteTrainingEventDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data: any
   ) {
+    super();
     this.personId = data.personId;
     this.eventId = data.eventId;
     this.eventDescription = data.eventDescription;
@@ -45,12 +37,11 @@ export class DeleteTrainingEventDialogComponent implements OnInit, OnDestroy {
 
   deleteEvent(): void {
     this.isUpdating = true;
-    this.subscriptions.push(
-      this.eventService
-        .deleteEvent(this.eventId, this.personId)
-        .subscribe((resp) => {
-          this.dialogRef.close();
-        })
-    );
+    this.eventService
+      .deleteEvent(this.eventId, this.personId)
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe((resp) => {
+        this.dialogRef.close();
+      });
   }
 }
