@@ -8,10 +8,11 @@
     "build": "tsc",
     "watch": "tsc -w",
     "test": "jest",
-    "synth:dev": "cdk synth DevCreateCruxRouteCognito DevCreateCruxRouteLambdaStack --profile CruxRouteAdmin",
-    "deploy:dev": "cdk deploy DevCreateCruxRouteCognito DevCreateCruxRouteLambdaStack --profile CruxRouteAdmin --require-approval never --progress events --outputs-file ../web/src/app/aws-deploy-dev-config.json",
-    "synth:prod": "cdk synth ProdCreateCruxRouteCognito ProdCreateCruxRouteLambdaStack --profile CruxRouteAdmin",
-    "deploy:prod": "cdk deploy ProdCreateCruxRouteCognito ProdCreateCruxRouteLambdaStack --profile CruxRouteAdmin --require-approval never --progress events --outputs-file ../web/src/app/aws-deploy-prod-config.json"
+    "synth:dev": "cdk synth dev-CreateCruxRouteCognito dev-CreateCruxRouteTrainingEventLambdaStack dev-CreateCruxRouteCoachAthleteLambdaStack --profile CruxRouteAdmin",
+    "deploy:dev": "cdk deploy dev-CreateCruxRouteCognito dev-CreateCruxRouteTrainingEventLambdaStack dev-CreateCruxRouteCoachAthleteLambdaStack --profile CruxRouteAdmin --require-approval never --progress events --outputs-file ../web/src/app/aws-deploy-dev-config.json",
+    "destroy:dev": "cdk destroy dev-CreateCruxRouteCognito dev-CreateCruxRouteTrainingEventLambdaStack dev-CreateCruxRouteCoachAthleteLambdaStack --profile CruxRouteAdmin --force",
+    "synth:prod": "cdk synth prod-CreateCruxRouteCognito prod-CreateCruxRouteTrainingEventLambdaStack prod-CreateCruxRouteCoachAthleteLambdaStack --profile CruxRouteAdmin",
+    "deploy:prod": "cdk deploy prod-CreateCruxRouteCognito prod-CreateCruxRouteTrainingEventLambdaStack prod-CreateCruxRouteCoachAthleteLambdaStack --profile CruxRouteAdmin --require-approval never --progress events --outputs-file ../web/src/app/aws-deploy-prod-config.json"
 
   },
   "devDependencies": {

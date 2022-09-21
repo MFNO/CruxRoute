@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 import * as cdk from "aws-cdk-lib";
-import { CreateCruxRouteLambdaStack } from "../lib/crux-route-lambda-stack";
+import { CreateCruxRouteTrainingEventLambdaStack } from "../lib/crux-route-training-event-lambda-stack";
 import {} from "../lib/crux-route-cloudfront-stack";
 import { CreateCruxRouteCognitoStack } from "../lib/crux-route-cognito-stack";
+import { CreateCruxRouteCoachAthleteLambdaStack } from "../lib/crux-route-coach-athlete-lambda-stack";
 
 const envCruxRoute = { account: "710911053146", region: "us-east-1" };
 
@@ -23,17 +24,37 @@ const devCognitoStack = new CreateCruxRouteCognitoStack(
   }
 );
 
-new CreateCruxRouteLambdaStack(app, "dev-CreateCruxRouteLambdaStack", {
-  userPool: devCognitoStack.userPool,
-  userPoolClient: devCognitoStack.userPoolClient,
-  env: envCruxRoute,
-  deploymentEnvironment: "dev",
-  stackName: "dev-CruxRouteLambdaStack",
-  apiCorsAllowedOrigins: [
-    "http://localhost:4200",
-    "http://cruxroutebucket.s3-website-us-east-1.amazonaws.com",
-  ],
-});
+new CreateCruxRouteTrainingEventLambdaStack(
+  app,
+  "dev-CreateCruxRouteTrainingEventLambdaStack",
+  {
+    userPool: devCognitoStack.userPool,
+    userPoolClient: devCognitoStack.userPoolClient,
+    env: envCruxRoute,
+    deploymentEnvironment: "dev",
+    stackName: "dev-CruxRouteTrainingEventLambdaStack",
+    apiCorsAllowedOrigins: [
+      "http://localhost:4200",
+      "http://cruxroutebucket.s3-website-us-east-1.amazonaws.com",
+    ],
+  }
+);
+
+new CreateCruxRouteCoachAthleteLambdaStack(
+  app,
+  "dev-CreateCruxRouteCoachAthleteLambdaStack",
+  {
+    userPool: devCognitoStack.userPool,
+    userPoolClient: devCognitoStack.userPoolClient,
+    env: envCruxRoute,
+    deploymentEnvironment: "dev",
+    stackName: "dev-CruxRouteCoachAthleteLambdaStack",
+    apiCorsAllowedOrigins: [
+      "http://localhost:4200",
+      "http://cruxroutebucket.s3-website-us-east-1.amazonaws.com",
+    ],
+  }
+);
 
 const prodCognitoStack = new CreateCruxRouteCognitoStack(
   app,
@@ -47,13 +68,32 @@ const prodCognitoStack = new CreateCruxRouteCognitoStack(
   }
 );
 
-new CreateCruxRouteLambdaStack(app, "prod-CreateCruxRouteLambdaStack", {
-  userPool: prodCognitoStack.userPool,
-  userPoolClient: prodCognitoStack.userPoolClient,
-  env: envCruxRoute,
-  deploymentEnvironment: "prod",
-  stackName: "prod-CruxRouteLambdaStack",
-  apiCorsAllowedOrigins: [
-    "http://cruxroutebucket.s3-website-us-east-1.amazonaws.com",
-  ],
-});
+new CreateCruxRouteTrainingEventLambdaStack(
+  app,
+  "prod-CreateCruxRouteTrainingEventLambdaStack",
+  {
+    userPool: prodCognitoStack.userPool,
+    userPoolClient: prodCognitoStack.userPoolClient,
+    env: envCruxRoute,
+    deploymentEnvironment: "prod",
+    stackName: "prod-CruxRouteTrainingEventLambdaStack",
+    apiCorsAllowedOrigins: [
+      "http://cruxroutebucket.s3-website-us-east-1.amazonaws.com",
+    ],
+  }
+);
+
+new CreateCruxRouteCoachAthleteLambdaStack(
+  app,
+  "prod-CreateCruxRouteCoachAthleteLambdaStack",
+  {
+    userPool: prodCognitoStack.userPool,
+    userPoolClient: prodCognitoStack.userPoolClient,
+    env: envCruxRoute,
+    deploymentEnvironment: "prod",
+    stackName: "prod-CruxRouteCoachAthleteLambdaStack",
+    apiCorsAllowedOrigins: [
+      "http://cruxroutebucket.s3-website-us-east-1.amazonaws.com",
+    ],
+  }
+);
