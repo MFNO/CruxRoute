@@ -8,12 +8,11 @@
     "build": "tsc",
     "watch": "tsc -w",
     "test": "jest",
-    "synth:dev": "cdk synth dev-CreateCruxRouteCognito dev-CreateCruxRouteTrainingEventLambdaStack dev-CreateCruxRouteCoachAthleteLambdaStack --profile CruxRouteAdmin",
-    "deploy:dev": "cdk deploy dev-CreateCruxRouteCognito dev-CreateCruxRouteTrainingEventLambdaStack dev-CreateCruxRouteCoachAthleteLambdaStack --profile CruxRouteAdmin --require-approval never --progress events --outputs-file ../web/src/app/aws-deploy-dev-config.json",
-    "destroy:dev": "cdk destroy dev-CreateCruxRouteCognito dev-CreateCruxRouteTrainingEventLambdaStack dev-CreateCruxRouteCoachAthleteLambdaStack --profile CruxRouteAdmin --force",
-    "synth:prod": "cdk synth prod-CreateCruxRouteCognito prod-CreateCruxRouteTrainingEventLambdaStack prod-CreateCruxRouteCoachAthleteLambdaStack --profile CruxRouteAdmin",
-    "deploy:prod": "cdk deploy prod-CreateCruxRouteCognito prod-CreateCruxRouteTrainingEventLambdaStack prod-CreateCruxRouteCoachAthleteLambdaStack --profile CruxRouteAdmin --require-approval never --progress events --outputs-file ../web/src/app/aws-deploy-prod-config.json"
-
+    "synth:dev": "cdk synth devCognito devCoachAthleteLambdaStack devTrainingEventLambdaStack --profile CruxRouteAdmin",
+    "deploy:dev": "cdk deploy prodCloudFront devCognito devCoachAthleteLambdaStack devTrainingEventLambdaStack --profile CruxRouteAdmin --require-approval never --progress events --outputs-file ../web/src/app/aws-deploy-dev-config.json",
+    "destroy:dev": "cdk destroy devCognito devCoachAthleteLambdaStack devTrainingEventLambdaStack --profile CruxRouteAdmin --force",
+    "synth:prod": "cdk synth prodCognito prodCoachAthleteLambdaStack prodTrainingEventLambdaStack --profile CruxRouteAdmin",
+    "deploy:prod": "cdk deploy prodCognito prodCoachAthleteLambdaStack prodTrainingEventLambdaStack --profile CruxRouteAdmin --require-approval never --progress events --outputs-file ../web/src/app/aws-deploy-prod-config.json"
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.104",

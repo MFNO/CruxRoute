@@ -22,7 +22,7 @@ export class CognitoService {
 
   constructor(private router: Router) {
     Amplify.configure({
-      Auth: AwsSettings.DevCruxRouteCognito,
+      Auth: AwsSettings.devCognito,
     });
 
     this.authenticationSubject = new BehaviorSubject<boolean>(false);

@@ -19,14 +19,14 @@ export class EventService {
 
   getEvents(personId: string): Observable<TrainingEvent[]> {
     return this.http.get<TrainingEvent[]>(
-      AwsSettings.DevCruxRouteLambdaStack.HttpApiUrl + '/events/' + personId
+      AwsSettings.devTrainingEventLambdaStack.HttpApiUrl + '/events/' + personId
     );
   }
 
   postEvent(event: TrainingEvent): Observable<TrainingEvent> {
     return this.http
       .post<TrainingEvent>(
-        AwsSettings.DevCruxRouteLambdaStack.HttpApiUrl + '/events',
+        AwsSettings.devTrainingEventLambdaStack.HttpApiUrl + '/events',
         JSON.stringify(event),
         this.httpOptions
       )
@@ -36,7 +36,7 @@ export class EventService {
   deleteEvent(eventId: string, personId: string): Observable<TrainingEvent> {
     return this.http
       .delete<TrainingEvent>(
-        AwsSettings.DevCruxRouteLambdaStack.HttpApiUrl +
+        AwsSettings.devTrainingEventLambdaStack.HttpApiUrl +
           '/events/' +
           personId +
           '/' +

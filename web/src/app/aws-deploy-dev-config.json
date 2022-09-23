@@ -1,14 +1,14 @@
 {
-  "dev-CruxRouteCoachAthleteLambdaStack": {
-    "HttpApiUrl": "https://c7ttzztv99.execute-api.us-east-1.amazonaws.com"
+  "devCoachAthleteLambdaStack": {
+    "HttpApiUrl": "https://aet71tlq6e.execute-api.us-east-1.amazonaws.com"
   },
-  "dev-CruxRouteCognito": {
-    "userPoolWebClientId": "6unesfeojt55segj3qkfkbq4h2",
+  "devCognito": {
+    "userPoolWebClientId": "lamrnshjrt2i0otmo6jc17ibk",
     "userPoolDomain": "dev-crux-route",
-    "cognitoOauthUrl": "https://dev-crux-route.auth.us-east-1.amazoncognito.com/oauth2/authorize?response_type=token&client_id=6unesfeojt55segj3qkfkbq4h2&redirect_uri=http://localhost:4000/",
-    "userPoolId": "us-east-1_Xkx26Kk36"
+    "cognitoOauthUrl": "https://dev-crux-route.auth.us-east-1.amazoncognito.com/oauth2/authorize?response_type=token&client_id=lamrnshjrt2i0otmo6jc17ibk&redirect_uri=http://localhost:4000/",
+    "userPoolId": "us-east-1_9MgX7os0X"
   },
-  "dev-CruxRouteTrainingEventLambdaStack": {
-    "HttpApiUrl": "https://xg3u1u2raa.execute-api.us-east-1.amazonaws.com"
+  "devTrainingEventLambdaStack": {
+    "HttpApiUrl": "https://n983kob3s9.execute-api.us-east-1.amazonaws.com"
   }
 }
