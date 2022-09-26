@@ -34,7 +34,7 @@ export class CreateCruxRouteCloudfrontStack extends Stack {
     const certificateArn = Certificate.fromCertificateArn(
       this,
       "tlsCertificate",
-      "arn:aws:acm:us-east-1:710911053146:certificate/c9877a60-3f4e-4363-90f5-8a9b4d6c833b"
+      "arn:aws:acm:us-east-1:141792826791:certificate/b7c783cd-5c99-4d9a-b7d3-8f5b63269eca"
     );
 
     // Web hosting bucket

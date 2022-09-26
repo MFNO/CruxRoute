@@ -2,5 +2,9 @@
   "hosted-zone:account=710911053146:domainName=cruxroute.com:region=us-east-1": {
     "Id": "/hostedzone/Z02405621RY8AEIVH5YN2",
     "Name": "cruxroute.com."
+  },
+  "hosted-zone:account=141792826791:domainName=cruxroute.com:region=us-east-1": {
+    "Id": "/hostedzone/Z053597839P6RSYLYYNH8",
+    "Name": "cruxroute.com."
   }
 }
