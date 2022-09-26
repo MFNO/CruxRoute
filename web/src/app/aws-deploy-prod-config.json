@@ -3,15 +3,15 @@
     "applicationURL": "cruxroute.com"
   },
   "prodCoachAthleteLambdaStack": {
-    "HttpApiUrl": "https://80uvkfc6n0.execute-api.us-east-1.amazonaws.com"
+    "HttpApiUrl": "https://zie4qhqgbb.execute-api.us-east-1.amazonaws.com"
   },
   "prodCognito": {
-    "userPoolWebClientId": "7t5j8mvgoop5aimupovsojo569",
+    "userPoolWebClientId": "6fm901qvdtusfea7avmj3vg579",
     "userPoolDomain": "crux-route-users-domain-prefix",
-    "cognitoOauthUrl": "https://crux-route-users-domain-prefix.auth.us-east-1.amazoncognito.com/oauth2/authorize?response_type=token&client_id=7t5j8mvgoop5aimupovsojo569&redirect_uri=https://cruxroute.com",
-    "userPoolId": "us-east-1_kmS6tKUWC"
+    "cognitoOauthUrl": "https://crux-route-users-domain-prefix.auth.us-east-1.amazoncognito.com/oauth2/authorize?response_type=token&client_id=6fm901qvdtusfea7avmj3vg579&redirect_uri=https://cruxroute.com",
+    "userPoolId": "us-east-1_BbImq7uQ2"
   },
   "prodTrainingEventLambdaStack": {
-    "HttpApiUrl": "https://it6e15lmk7.execute-api.us-east-1.amazonaws.com"
+    "HttpApiUrl": "https://zkfjmpa6o3.execute-api.us-east-1.amazonaws.com"
   }
 }

@@ -18,8 +18,7 @@ import {
   ViewerProtocolPolicy,
   Distribution,
 } from "aws-cdk-lib/aws-cloudfront";
-
-
+import { HttpsRedirect } from "aws-cdk-lib/aws-route53-patterns";
 
 export class CreateCruxRouteCloudfrontStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
@@ -83,6 +82,12 @@ export class CreateCruxRouteCloudfrontStack extends Stack {
     new CfnOutput(this, "applicationURL", {
       value: applicationURL.domainName,
       exportName: "applicationURL",
+    });
+
+    new HttpsRedirect(this, "wwwToNonWww", {
+      recordNames: ["www.cruxroute.com"],
+      targetDomain: "www.cruxroute.com",
+      zone: zone,
     });
   }
 }

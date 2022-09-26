@@ -1,19 +1,19 @@
 export const environment = {
   production: true,
-  prodCloudFront: {
+  CloudFront: {
     applicationURL: 'cruxroute.com',
   },
   CoachAthleteLambdaStack: {
-    HttpApiUrl: 'https://dfg9zrqjbh.execute-api.us-east-1.amazonaws.com',
+    HttpApiUrl: 'https://zie4qhqgbb.execute-api.us-east-1.amazonaws.com',
   },
   Cognito: {
-    userPoolWebClientId: '1pc1u753ih5k5d3266m1icdqaa',
-    userPoolDomain: 'prod-crux-route',
+    userPoolWebClientId: '6fm901qvdtusfea7avmj3vg579',
+    userPoolDomain: 'crux-route-users-domain-prefix',
     cognitoOauthUrl:
-      'https://prod-crux-route.auth.us-east-1.amazoncognito.com/oauth2/authorize?response_type=token&client_id=1pc1u753ih5k5d3266m1icdqaa&redirect_uri=https://cruxroute.com',
-    userPoolId: 'us-east-1_xGBlhpVob',
+      'https://crux-route-users-domain-prefix.auth.us-east-1.amazoncognito.com/oauth2/authorize?response_type=token&client_id=6fm901qvdtusfea7avmj3vg579&redirect_uri=https://cruxroute.com',
+    userPoolId: 'us-east-1_BbImq7uQ2',
   },
   TrainingEventLambdaStack: {
-    HttpApiUrl: 'https://v8bxjh5y69.execute-api.us-east-1.amazonaws.com',
+    HttpApiUrl: 'https://zkfjmpa6o3.execute-api.us-east-1.amazonaws.com',
   },
 };

@@ -8,9 +8,11 @@
     "build": "tsc",
     "watch": "tsc -w",
     "test": "jest",
+    "bootstrap:dev": "cdk bootstrap --profile CruxRouteDev",
     "synth:dev": "cdk synth devCognito devCoachAthleteLambdaStack devTrainingEventLambdaStack --profile CruxRouteDev",
     "deploy:dev": "cdk deploy devCognito devCoachAthleteLambdaStack devTrainingEventLambdaStack --profile CruxRouteDev --require-approval never --progress events --outputs-file ../web/src/app/aws-deploy-dev-config.json",
     "destroy:dev": "cdk destroy devCognito devCoachAthleteLambdaStack devTrainingEventLambdaStack --profile CruxRouteDev --force",
+    "bootstrap:prod": "cdk bootstrap --profile CruxRouteProd",
     "synth:prod": "cdk synth prodCloudFront prodCognito prodCoachAthleteLambdaStack prodTrainingEventLambdaStack --profile CruxRouteProd",
     "deploy:prod": "cdk deploy prodCloudFront prodCognito prodCoachAthleteLambdaStack prodTrainingEventLambdaStack --profile CruxRouteProd --require-approval never --progress events --outputs-file ../web/src/app/aws-deploy-prod-config.json"
   },
