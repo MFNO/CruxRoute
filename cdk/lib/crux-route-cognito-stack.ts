@@ -10,7 +10,6 @@ import {
 import { Construct } from "constructs";
 
 interface CreateCruxRouteCognitoStackProps extends StackProps {
-  readonly deploymentEnvironment: "dev" | "prod";
   readonly callbackUrls: string[];
   readonly logoutUrls: string[];
 }
@@ -26,13 +25,12 @@ export class CreateCruxRouteCognitoStack extends Stack {
   ) {
     super(scope, id, props);
 
-    const { deploymentEnvironment } = props;
 
     this.userPool = new UserPool(
       this,
-      `${deploymentEnvironment}-CruxRouteUserPool`,
+      "CruxRouteUserPool",
       {
-        userPoolName: `${deploymentEnvironment}-CruxRouteUserPool`,
+        userPoolName: "CruxRouteUserPool",
         selfSignUpEnabled: true,
         signInAliases: {
           email: true,
@@ -47,7 +45,7 @@ export class CreateCruxRouteCognitoStack extends Stack {
       }
     );
 
-    const uniquePrefix = `${deploymentEnvironment}-crux-route`;
+    const uniquePrefix = "crux-route-users-domain-prefix";
     const userPoolDomain = this.userPool.addDomain("default", {
       cognitoDomain: {
         domainPrefix: uniquePrefix,
@@ -90,7 +88,7 @@ export class CreateCruxRouteCognitoStack extends Stack {
 
     this.userPoolClient = new UserPoolClient(
       this,
-      `${deploymentEnvironment}-CruxRouteUserPoolClient`,
+      "CruxRouteUserPoolClient",
       {
         userPool: this.userPool,
         authFlows: {

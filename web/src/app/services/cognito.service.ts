@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { Amplify, Auth } from 'aws-amplify';
-
-import AwsSettings from '../aws-deploy-dev-config.json';
+import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
 
 export interface IUser {
@@ -22,7 +21,7 @@ export class CognitoService {
 
   constructor(private router: Router) {
     Amplify.configure({
-      Auth: AwsSettings.devCognito,
+      Auth: environment.Cognito,
     });
 
     this.authenticationSubject = new BehaviorSubject<boolean>(false);

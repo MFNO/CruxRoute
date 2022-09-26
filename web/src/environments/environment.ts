@@ -4,9 +4,21 @@
 
 export const environment = {
   production: false,
-  cognito: {
-    userPoolId: 'us-east-1_kcm326VCS',
-    userPoolWebClientId: '75ml0moepuvrh1ucljmc5fgg96',
+  CoachAthleteLambdaStack: {
+    HttpApiUrl: 'https://aet71tlq6e.execute-api.us-east-1.amazonaws.com',
+  },
+  Cognito: {
+    userPoolWebClientId: 'lamrnshjrt2i0otmo6jc17ibk',
+    userPoolDomain: 'dev-crux-route',
+    cognitoOauthUrl:
+      'https://dev-crux-route.auth.us-east-1.amazoncognito.com/oauth2/authorize?response_type=token&client_id=lamrnshjrt2i0otmo6jc17ibk&redirect_uri=http://localhost:4000/',
+    userPoolId: 'us-east-1_9MgX7os0X',
+  },
+  TrainingEventLambdaStack: {
+    HttpApiUrl: 'https://n983kob3s9.execute-api.us-east-1.amazonaws.com',
+  },
+  CloudFront: {
+    applicationURL: 'cruxroute.com',
   },
 };
 

@@ -14,7 +14,6 @@ import { AttributeType, BillingMode, Table } from "aws-cdk-lib/aws-dynamodb";
 import { PolicyStatement } from "aws-cdk-lib/aws-iam";
 
 interface CreateCruxRouteCoachAthleteLambdaStackProps extends StackProps {
-  readonly deploymentEnvironment: "dev" | "prod";
   readonly userPool: UserPool;
   readonly userPoolClient: UserPoolClient;
   readonly apiCorsAllowedOrigins: string[];
@@ -28,14 +27,12 @@ export class CreateCruxRouteCoachAthleteLambdaStack extends Stack {
   ) {
     super(scope, id, props);
 
-    const { deploymentEnvironment } = props;
-
     const coachAthleteTable = new Table(this, id, {
       billingMode: BillingMode.PROVISIONED,
       partitionKey: { name: "coachId", type: AttributeType.STRING },
       removalPolicy: RemovalPolicy.DESTROY,
       sortKey: { name: "personId", type: AttributeType.STRING },
-      tableName: `${deploymentEnvironment}-CoachAthleteTable`,
+      tableName: "CoachAthleteTable",
     });
 
     coachAthleteTable.addGlobalSecondaryIndex({
@@ -48,10 +45,10 @@ export class CreateCruxRouteCoachAthleteLambdaStack extends Stack {
 
     const writeFunction = new NodejsFunction(
       this,
-      `${deploymentEnvironment}-WriteCoachAthleteFn`,
+      "WriteCoachAthleteFn",
       {
         architecture: Architecture.ARM_64,
-        entry: `${__dirname}/dynamo-fns/CoachAthlete/write-coach-athlete.ts`,
+        entry:`${__dirname}/dynamo-fns/CoachAthlete/write-coach-athlete.ts`,
         logRetention: RetentionDays.ONE_WEEK,
       }
     );
@@ -75,7 +72,7 @@ export class CreateCruxRouteCoachAthleteLambdaStack extends Stack {
       })
     );
 
-    const api = new HttpApi(this, `${deploymentEnvironment}-CoachAthleteApi`, {
+    const api = new HttpApi(this, "CoachAthleteApi", {
       corsPreflight: {
         allowHeaders: ["Content-Type"],
         allowMethods: [

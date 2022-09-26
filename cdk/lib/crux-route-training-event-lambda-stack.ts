@@ -3,7 +3,6 @@ import {
   HttpApi,
   HttpMethod,
 } from "@aws-cdk/aws-apigatewayv2-alpha";
-import { HttpUserPoolAuthorizer } from "@aws-cdk/aws-apigatewayv2-authorizers-alpha";
 import { HttpLambdaIntegration } from "@aws-cdk/aws-apigatewayv2-integrations-alpha";
 import { RemovalPolicy, CfnOutput, Stack, StackProps } from "aws-cdk-lib";
 import { UserPool, UserPoolClient } from "aws-cdk-lib/aws-cognito";
@@ -14,13 +13,11 @@ import { Construct } from "constructs";
 import {
   AttributeType,
   BillingMode,
-  ProjectionType,
   Table,
 } from "aws-cdk-lib/aws-dynamodb";
 import { PolicyStatement } from "aws-cdk-lib/aws-iam";
 
 interface CreateCruxRouteTrainingEventLambdaStackProps extends StackProps {
-  readonly deploymentEnvironment: "dev" | "prod";
   readonly userPool: UserPool;
   readonly userPoolClient: UserPoolClient;
   readonly apiCorsAllowedOrigins: string[];
@@ -34,14 +31,13 @@ export class CreateCruxRouteTrainingEventLambdaStack extends Stack {
   ) {
     super(scope, id, props);
 
-    const { deploymentEnvironment } = props;
 
     const trainingEventTable = new Table(this, id, {
       billingMode: BillingMode.PROVISIONED,
       partitionKey: { name: "id", type: AttributeType.STRING },
       removalPolicy: RemovalPolicy.DESTROY,
       sortKey: { name: "personId", type: AttributeType.STRING },
-      tableName: `${deploymentEnvironment}-TrainingEventTable`,
+      tableName: "TrainingEventTable",
     });
 
     trainingEventTable.addGlobalSecondaryIndex({
@@ -54,17 +50,17 @@ export class CreateCruxRouteTrainingEventLambdaStack extends Stack {
 
     const deleteFunction = new NodejsFunction(
       this,
-      `${deploymentEnvironment}-DeleteEventFn`,
+      "DeleteEventFn",
       {
         architecture: Architecture.ARM_64,
-        entry: `${__dirname}/dynamo-fns/TrainingEvent/delete-training-event.ts`,
+        entry:`${__dirname}/dynamo-fns/TrainingEvent/delete-training-event.ts`,
         logRetention: RetentionDays.ONE_WEEK,
       }
     );
 
     const readFunction = new NodejsFunction(
       this,
-      `${deploymentEnvironment}-ReadEventFn`,
+      "ReadEventFn",
       {
         architecture: Architecture.ARM_64,
         entry: `${__dirname}/dynamo-fns/TrainingEvent/read-training-event.ts`,
@@ -74,7 +70,7 @@ export class CreateCruxRouteTrainingEventLambdaStack extends Stack {
 
     const writeFunction = new NodejsFunction(
       this,
-      `${deploymentEnvironment}-WriteEventFn`,
+      "WriteEventFn",
       {
         architecture: Architecture.ARM_64,
         entry: `${__dirname}/dynamo-fns/TrainingEvent/write-training-event.ts`,
@@ -105,7 +101,7 @@ export class CreateCruxRouteTrainingEventLambdaStack extends Stack {
 
     trainingEventTable.grantWriteData(writeFunction);
 
-    const api = new HttpApi(this, `${deploymentEnvironment}-TrainingEventApi`, {
+    const api = new HttpApi(this, "TrainingEventApi", {
       corsPreflight: {
         allowHeaders: ["Content-Type"],
         allowMethods: [

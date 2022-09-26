@@ -51,7 +51,7 @@ export type TrainingEventType = Entity<typeof schema.models.TrainingEvent>;
 
 const table = new Table({
   client,
-  name: "dev-TrainingEventTable",
+  name: "TrainingEventTable",
   schema,
   timestamps: true,
 });

@@ -12,17 +12,12 @@ new CreateCruxRouteCloudfrontStack(app, "prodCloudFront", {
   env: envCruxRoute,
 });
 
-const devCognitoStack = new CreateCruxRouteCognitoStack(
-  app,
-  "devCognito",
-  {
-    env: envCruxRoute,
-    deploymentEnvironment: "dev",
-    stackName: "devCognito",
-    callbackUrls: ["http://localhost:4000/"],
-    logoutUrls: [],
-  }
-);
+const devCognitoStack = new CreateCruxRouteCognitoStack(app, "devCognito", {
+  env: envCruxRoute,
+  stackName: "devCognito",
+  callbackUrls: ["http://localhost:4000/"],
+  logoutUrls: [],
+});
 
 new CreateCruxRouteTrainingEventLambdaStack(
   app,
@@ -31,42 +26,25 @@ new CreateCruxRouteTrainingEventLambdaStack(
     userPool: devCognitoStack.userPool,
     userPoolClient: devCognitoStack.userPoolClient,
     env: envCruxRoute,
-    deploymentEnvironment: "dev",
     stackName: "devTrainingEventLambdaStack",
-    apiCorsAllowedOrigins: [
-      "http://localhost:4200",
-      "http://cruxroutebucket.s3-website-us-east-1.amazonaws.com",
-    ],
+    apiCorsAllowedOrigins: ["http://localhost:4200"],
   }
 );
 
-new CreateCruxRouteCoachAthleteLambdaStack(
-  app,
-  "devCoachAthleteLambdaStack",
-  {
-    userPool: devCognitoStack.userPool,
-    userPoolClient: devCognitoStack.userPoolClient,
-    env: envCruxRoute,
-    deploymentEnvironment: "dev",
-    stackName: "devCoachAthleteLambdaStack",
-    apiCorsAllowedOrigins: [
-      "http://localhost:4200",
-      "http://cruxroutebucket.s3-website-us-east-1.amazonaws.com",
-    ],
-  }
-);
+new CreateCruxRouteCoachAthleteLambdaStack(app, "devCoachAthleteLambdaStack", {
+  userPool: devCognitoStack.userPool,
+  userPoolClient: devCognitoStack.userPoolClient,
+  env: envCruxRoute,
+  stackName: "devCoachAthleteLambdaStack",
+  apiCorsAllowedOrigins: ["http://localhost:4200"],
+});
 
-const prodCognitoStack = new CreateCruxRouteCognitoStack(
-  app,
-  "prodCognito",
-  {
-    env: envCruxRoute,
-    deploymentEnvironment: "prod",
-    stackName: "prodCognito",
-    callbackUrls: ["http://cruxroutebucket.s3-website-us-east-1.amazonaws.com"],
-    logoutUrls: [],
-  }
-);
+const prodCognitoStack = new CreateCruxRouteCognitoStack(app, "prodCognito", {
+  env: envCruxRoute,
+  stackName: "prodCognito",
+  callbackUrls: ["https://cruxroute.com"],
+  logoutUrls: [],
+});
 
 new CreateCruxRouteTrainingEventLambdaStack(
   app,
@@ -75,25 +53,15 @@ new CreateCruxRouteTrainingEventLambdaStack(
     userPool: prodCognitoStack.userPool,
     userPoolClient: prodCognitoStack.userPoolClient,
     env: envCruxRoute,
-    deploymentEnvironment: "prod",
     stackName: "prodTrainingEventLambdaStack",
-    apiCorsAllowedOrigins: [
-      "http://cruxroutebucket.s3-website-us-east-1.amazonaws.com",
-    ],
+    apiCorsAllowedOrigins: ["https://cruxroute.com"],
   }
 );
 
-new CreateCruxRouteCoachAthleteLambdaStack(
-  app,
-  "prodCoachAthleteLambdaStack",
-  {
-    userPool: prodCognitoStack.userPool,
-    userPoolClient: prodCognitoStack.userPoolClient,
-    env: envCruxRoute,
-    deploymentEnvironment: "prod",
-    stackName: "prodCoachAthleteLambdaStack",
-    apiCorsAllowedOrigins: [
-      "http://cruxroutebucket.s3-website-us-east-1.amazonaws.com",
-    ],
-  }
-);
+new CreateCruxRouteCoachAthleteLambdaStack(app, "prodCoachAthleteLambdaStack", {
+  userPool: prodCognitoStack.userPool,
+  userPoolClient: prodCognitoStack.userPoolClient,
+  env: envCruxRoute,
+  stackName: "prodCoachAthleteLambdaStack",
+  apiCorsAllowedOrigins: ["https://cruxroute.com"],
+});

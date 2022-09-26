@@ -10,5 +10,8 @@
   },
   "devTrainingEventLambdaStack": {
     "HttpApiUrl": "https://n983kob3s9.execute-api.us-east-1.amazonaws.com"
+  },
+  "prodCloudFront": {
+    "applicationURL": "cruxroute.com"
   }
 }
