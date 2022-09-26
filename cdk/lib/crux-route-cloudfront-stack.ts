@@ -86,7 +86,7 @@ export class CreateCruxRouteCloudfrontStack extends Stack {
 
     new HttpsRedirect(this, "wwwToNonWww", {
       recordNames: ["www.cruxroute.com"],
-      targetDomain: "www.cruxroute.com",
+      targetDomain: "cruxroute.com",
       zone: zone,
     });
   }
