@@ -18,7 +18,6 @@ export class CoachOverviewComponent
   coach: Coach;
   athleteId: string;
   isLoading: boolean = true;
-  linked: boolean;
   coachEmail: string;
 
   constructor(
