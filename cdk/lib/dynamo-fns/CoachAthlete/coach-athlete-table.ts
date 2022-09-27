@@ -22,7 +22,7 @@ const schema = {
         type: "string",
         value: "CoachAthlete",
       },
-      personId: {
+      athleteId: {
         required: true,
         type: "string",
       },

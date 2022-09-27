@@ -32,13 +32,13 @@ export class CreateCruxRouteCoachAthleteLambdaStack extends Stack {
       billingMode: BillingMode.PROVISIONED,
       partitionKey: { name: "coachId", type: AttributeType.STRING },
       removalPolicy: RemovalPolicy.DESTROY,
-      sortKey: { name: "personId", type: AttributeType.STRING },
+      sortKey: { name: "athleteId", type: AttributeType.STRING },
       tableName: "CoachAthleteTable",
     });
 
     coachAthleteTable.addGlobalSecondaryIndex({
       indexName: "gs1",
-      partitionKey: { name: "personId", type: AttributeType.STRING },
+      partitionKey: { name: "athleteId", type: AttributeType.STRING },
       sortKey: { name: "coachId", type: AttributeType.STRING },
       readCapacity: 1,
       writeCapacity: 1,

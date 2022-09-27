@@ -9,9 +9,9 @@
     "ExportsOutputFnGetAttCruxRouteUserPoolFF2E6852ArnCB12EF4C": "arn:aws:cognito-idp:us-east-1:985131702940:userpool/us-east-1_SoEQPWLlX"
   },
   "devTrainingEventLambdaStack": {
-    "HttpApiUrl": "https://ip0gvrqi7h.execute-api.us-east-1.amazonaws.com"
+    "HttpApiUrl": "https://efeint2nv2.execute-api.us-east-1.amazonaws.com"
   },
   "devCoachAthleteLambdaStack": {
-    "HttpApiUrl": "https://b3am5j62e0.execute-api.us-east-1.amazonaws.com"
+    "HttpApiUrl": "https://937edi3spc.execute-api.us-east-1.amazonaws.com"
   }
 }

@@ -14,12 +14,11 @@ export const handler = async (
 ): Promise<APIGatewayProxyResultV2> => {
   const body = event.body;
   if (body) {
-    const userPoolClientId = process.env.userPoolClientId;
     const userPoolId = process.env.userPoolId;
 
-    const test = JSON.parse(body);
-    const client = new CognitoIdentityProviderClient({ region: "us-east-1" });
+    const request = JSON.parse(body);
 
+    const client = new CognitoIdentityProviderClient({ region: "us-east-1" });
     const command = new ListUsersCommand({
       UserPoolId: userPoolId,
       AttributesToGet: ["email"],
@@ -27,12 +26,25 @@ export const handler = async (
 
     const response = await client.send(command);
 
-    test.response = response;
-    //const coachAthlete = await CoachAthlete.create(JSON.parse(body));
-    return {
-      body: JSON.stringify(test),
-      statusCode: 200,
-    };
+    const cognitoAthlete = response.Users?.find((user) =>
+      user.Attributes?.some(
+        (attribute) =>
+          attribute.Name === "email" && attribute.Value === request.athleteEmail
+      )
+    );
+
+    if (cognitoAthlete && cognitoAthlete.Username) {
+      const coachAthlete = await CoachAthlete.create({
+        athleteId: cognitoAthlete.Username,
+        coachId: request.coachId,
+        linked: request.linked,
+      });
+
+      return {
+        body: JSON.stringify(coachAthlete),
+        statusCode: 200,
+      };
+    }
   }
   return { body: "Error, invalid input!", statusCode: 400 };
 };
