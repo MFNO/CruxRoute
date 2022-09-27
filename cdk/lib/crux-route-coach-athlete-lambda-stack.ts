@@ -69,6 +69,7 @@ export class CreateCruxRouteCoachAthleteLambdaStack extends Stack {
           "dynamodb:Get*",
           "dynamodb:BatchGet*",
           "dynamodb:DescribeTable",
+          "dynamodb:PutItem",
         ],
       })
     );

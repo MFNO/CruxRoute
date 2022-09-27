@@ -1,3 +1,4 @@
+import { ThisReceiver } from '@angular/compiler';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
 import { Subscription, takeUntil } from 'rxjs';
@@ -14,11 +15,12 @@ export class AppComponent extends BaseComponent implements OnInit, OnDestroy {
 
   url: string;
 
-  isAuthenticated: boolean;
+  isUserAuthenticated: boolean;
+  currentUserRole: string;
 
   constructor(private router: Router, private cognitoService: CognitoService) {
     super();
-    this.isAuthenticated = false;
+    this.isUserAuthenticated = false;
   }
 
   public ngOnInit(): void {
@@ -26,15 +28,19 @@ export class AppComponent extends BaseComponent implements OnInit, OnDestroy {
       if (event instanceof NavigationStart) {
         this.url = event.url;
         this.cognitoService.isAuthenticated().then((success: boolean) => {
-          this.isAuthenticated = success;
+          this.isUserAuthenticated = success;
         });
+        this.cognitoService
+          .getCurrentRole()
+          .then((res) => (this.currentUserRole = res))
+          .catch((err) => console.log(err));
       }
     });
   }
 
   public signOut(): void {
-    this.isAuthenticated = false;
-    console.log(this.isAuthenticated);
+    this.isUserAuthenticated = false;
+    console.log(this.isUserAuthenticated);
     this.cognitoService.signOut().then((res) => {
       this.router.navigate(['/signIn']);
     });

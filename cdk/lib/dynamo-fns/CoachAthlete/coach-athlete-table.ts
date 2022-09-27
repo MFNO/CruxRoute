@@ -47,7 +47,7 @@ export type CoachAthleteType = Entity<typeof schema.models.CoachAthlete>;
 
 const table = new Table({
   client,
-  name: "CoachAthlete",
+  name: "CoachAthleteTable",
   schema,
   timestamps: true,
 });

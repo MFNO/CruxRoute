@@ -75,6 +75,12 @@ export class CognitoService {
     return Auth.currentUserInfo();
   }
 
+  public getCurrentRole(): Promise<any> {
+    return Auth.currentUserInfo().then((user: any) => {
+      return user.attributes['custom:cruxRouteRole'];
+    });
+  }
+
   public updateUser(user: IUser): Promise<any> {
     return Auth.currentUserPoolUser().then((cognitoUser: any) => {
       return Auth.updateUserAttributes(cognitoUser, user);

@@ -24,7 +24,7 @@
             class="nav-link"
             routerLink="/signUp"
             routerLinkActive="active"
-            *ngIf="!isAuthenticated"
+            *ngIf="!isUserAuthenticated"
             >Sign up</a
           >
         </li>
@@ -33,7 +33,7 @@
             class="nav-link"
             routerLink="/signIn"
             routerLinkActive="active"
-            *ngIf="!isAuthenticated"
+            *ngIf="!isUserAuthenticated"
             >Sign in</a
           >
         </li>
@@ -42,7 +42,7 @@
             class="nav-link"
             routerLink="/calendar"
             routerLinkActive="active"
-            *ngIf="isAuthenticated"
+            *ngIf="isUserAuthenticated"
             >Calendar</a
           >
         </li>
@@ -51,13 +51,22 @@
             class="nav-link"
             routerLink="/athletes"
             routerLinkActive="active"
-            *ngIf="isAuthenticated"
+            *ngIf="isUserAuthenticated && currentUserRole === 'COACH'"
             >Athletes</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            routerLink="/coach"
+            routerLinkActive="active"
+            *ngIf="isUserAuthenticated && currentUserRole === 'ATHLETE'"
+            >My Coach</a
           >
         </li>
         <li class="nav-item"></li>
       </ul>
-      <div *ngIf="isAuthenticated" class="my-profile-container">
+      <div *ngIf="isUserAuthenticated" class="my-profile-container">
         <button mat-button [matMenuTriggerFor]="menu">My Profile</button>
         <mat-menu #menu="matMenu">
           <a
@@ -72,7 +81,7 @@
             class="nav-link"
             routerLink=""
             (click)="signOut()"
-            *ngIf="isAuthenticated"
+            *ngIf="isUserAuthenticated"
             >Sign out</a
           >
         </mat-menu>

@@ -33,6 +33,7 @@ import { AuthGuard } from './guards';
 import { BaseComponent } from './base/base.component';
 import { AtheleteOverviewComponent } from './athelete-overview/athelete-overview.component';
 import { AddCoachAthleteComponent } from './add-coach-athlete/add-coach-athlete.component';
+import { CoachOverviewComponent } from './coach-overview/coach-overview.component';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { AddCoachAthleteComponent } from './add-coach-athlete/add-coach-athlete.
     SignInComponent,
     AtheleteOverviewComponent,
     AddCoachAthleteComponent,
+    CoachOverviewComponent,
   ],
   imports: [
     CommonModule,
