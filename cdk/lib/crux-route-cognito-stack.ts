@@ -12,6 +12,7 @@ import { Construct } from "constructs";
 interface CreateCruxRouteCognitoStackProps extends StackProps {
   readonly callbackUrls: string[];
   readonly logoutUrls: string[];
+  readonly cruxRouteEnv: "dev" | "prod";
 }
 
 export class CreateCruxRouteCognitoStack extends Stack {
@@ -25,27 +26,22 @@ export class CreateCruxRouteCognitoStack extends Stack {
   ) {
     super(scope, id, props);
 
+    this.userPool = new UserPool(this, "CruxRouteUserPool", {
+      userPoolName: "CruxRouteUserPool",
+      selfSignUpEnabled: true,
+      signInAliases: {
+        email: true,
+      },
+      autoVerify: {
+        email: true,
+      },
+      customAttributes: {
+        cruxRouteRole: new StringAttribute({ mutable: true }),
+      },
+      removalPolicy: RemovalPolicy.RETAIN,
+    });
 
-    this.userPool = new UserPool(
-      this,
-      "CruxRouteUserPool",
-      {
-        userPoolName: "CruxRouteUserPool",
-        selfSignUpEnabled: true,
-        signInAliases: {
-          email: true,
-        },
-        autoVerify: {
-          email: true,
-        },
-        customAttributes: {
-          cruxRouteRole: new StringAttribute({ mutable: true }),
-        },
-        removalPolicy: RemovalPolicy.RETAIN,
-      }
-    );
-
-    const uniquePrefix = "crux-route-users-domain-prefix";
+    const uniquePrefix = `${props.cruxRouteEnv}-crux-route-users-domain-prefix`;
     const userPoolDomain = this.userPool.addDomain("default", {
       cognitoDomain: {
         domainPrefix: uniquePrefix,
@@ -86,25 +82,21 @@ export class CreateCruxRouteCognitoStack extends Stack {
       })
       .withCustomAttributes(...["cruxRouteRole"]);
 
-    this.userPoolClient = new UserPoolClient(
-      this,
-      "CruxRouteUserPoolClient",
-      {
-        userPool: this.userPool,
-        authFlows: {
-          adminUserPassword: true,
-          custom: true,
-          userSrp: true,
-        },
-        supportedIdentityProviders: [UserPoolClientIdentityProvider.COGNITO],
-        readAttributes: clientReadAttributes,
-        writeAttributes: clientWriteAttributes,
-        oAuth: {
-          callbackUrls: props.callbackUrls,
-          logoutUrls: props.logoutUrls,
-        },
-      }
-    );
+    this.userPoolClient = new UserPoolClient(this, "CruxRouteUserPoolClient", {
+      userPool: this.userPool,
+      authFlows: {
+        adminUserPassword: true,
+        custom: true,
+        userSrp: true,
+      },
+      supportedIdentityProviders: [UserPoolClientIdentityProvider.COGNITO],
+      readAttributes: clientReadAttributes,
+      writeAttributes: clientWriteAttributes,
+      oAuth: {
+        callbackUrls: props.callbackUrls,
+        logoutUrls: props.logoutUrls,
+      },
+    });
 
     new CfnOutput(this, "userPoolId", {
       value: this.userPool.userPoolId,

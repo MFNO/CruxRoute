@@ -15,6 +15,7 @@ new CreateCruxRouteCloudfrontStack(app, "prodCloudFront", {
 
 const devCognitoStack = new CreateCruxRouteCognitoStack(app, "devCognito", {
   env: devEnvCruxRoute,
+  cruxRouteEnv: "dev",
   stackName: "devCognito",
   callbackUrls: ["http://localhost:4000/"],
   logoutUrls: [],
@@ -42,6 +43,7 @@ new CreateCruxRouteCoachAthleteLambdaStack(app, "devCoachAthleteLambdaStack", {
 
 const prodCognitoStack = new CreateCruxRouteCognitoStack(app, "prodCognito", {
   env: prodEnvCruxRoute,
+  cruxRouteEnv: "prod",
   stackName: "prodCognito",
   callbackUrls: ["https://cruxroute.com"],
   logoutUrls: [],

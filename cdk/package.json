@@ -14,7 +14,8 @@
     "destroy:dev": "cdk destroy devCognito devCoachAthleteLambdaStack devTrainingEventLambdaStack --profile CruxRouteDev --force",
     "bootstrap:prod": "cdk bootstrap --profile CruxRouteProd",
     "synth:prod": "cdk synth prodCloudFront prodCognito prodCoachAthleteLambdaStack prodTrainingEventLambdaStack --profile CruxRouteProd",
-    "deploy:prod": "cdk deploy prodCloudFront prodCognito prodCoachAthleteLambdaStack prodTrainingEventLambdaStack --profile CruxRouteProd --require-approval never --progress events --outputs-file ../web/src/app/aws-deploy-prod-config.json"
+    "deploy:prod": "cdk deploy prodCloudFront prodCognito prodCoachAthleteLambdaStack prodTrainingEventLambdaStack --profile CruxRouteProd --require-approval never --progress events --outputs-file ../web/src/app/aws-deploy-prod-config.json",
+    "destroy:prod": "cdk destroy prodCloudFront prodCognito prodCoachAthleteLambdaStack prodTrainingEventLambdaStack --profile CruxRouteProd --force"
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.104",
