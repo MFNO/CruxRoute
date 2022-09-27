@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { takeUntil } from 'rxjs';
 import { BaseComponent } from '../base/base.component';
-import { CoachAthleteService } from '../services/coachathlete.service';
+import { CoachAthleteService } from '../services/coach-athlete.service';
 import { CognitoService } from '../services/cognito.service';
 import { CoachAthlete } from '../shared/coach-athlete';
 
@@ -47,7 +47,7 @@ export class AddCoachAthleteComponent
         athleteEmail: athleteMail,
       };
       this.coachAthleteService
-        .postCoachAtlhete(coachAthlete)
+        .postCoachAthlete(coachAthlete)
         .pipe(takeUntil(this.onDestroy$))
         .subscribe((resp) => {
           console.log(resp);

@@ -7,7 +7,7 @@ import { SignInComponent } from './sign-in/sign-in.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
 
 import { AuthGuard } from './guards/index';
-import { AtheleteOverviewComponent } from './athelete-overview/athelete-overview.component';
+import { athleteOverviewComponent } from './athlete-overview/athlete-overview.component';
 import { CoachOverviewComponent } from './coach-overview/coach-overview.component';
 
 const routes: Routes = [
@@ -31,7 +31,7 @@ const routes: Routes = [
   },
   {
     path: 'athletes',
-    component: AtheleteOverviewComponent,
+    component: athleteOverviewComponent,
     canActivate: [AuthGuard],
     data: {
       role: 'COACH',

@@ -31,7 +31,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatMenuModule } from '@angular/material/menu';
 import { AuthGuard } from './guards';
 import { BaseComponent } from './base/base.component';
-import { AtheleteOverviewComponent } from './athelete-overview/athelete-overview.component';
+import { athleteOverviewComponent } from './athlete-overview/athlete-overview.component';
 import { AddCoachAthleteComponent } from './add-coach-athlete/add-coach-athlete.component';
 import { CoachOverviewComponent } from './coach-overview/coach-overview.component';
 
@@ -45,7 +45,7 @@ import { CoachOverviewComponent } from './coach-overview/coach-overview.componen
     SignUpComponent,
     ProfileComponent,
     SignInComponent,
-    AtheleteOverviewComponent,
+    athleteOverviewComponent,
     AddCoachAthleteComponent,
     CoachOverviewComponent,
   ],

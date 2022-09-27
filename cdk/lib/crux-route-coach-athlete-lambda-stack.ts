@@ -54,10 +54,40 @@ export class CreateCruxRouteCoachAthleteLambdaStack extends Stack {
       logRetention: RetentionDays.ONE_WEEK,
     });
 
+    const readFunction = new NodejsFunction(this, "ReadCoachAthleteFn", {
+      environment: {
+        userPoolId: props.userPool.userPoolId,
+        userPoolClientId: props.userPoolClient.userPoolClientId,
+      },
+      architecture: Architecture.ARM_64,
+      entry: `${__dirname}/dynamo-fns/CoachAthlete/read-coach-athlete.ts`,
+      logRetention: RetentionDays.ONE_WEEK,
+    });
+
     coachAthleteTable.grantWriteData(writeFunction);
+    coachAthleteTable.grantReadData(readFunction);
 
     //we have to manually allow the read function to access the global seconday index
     writeFunction.addToRolePolicy(
+      new PolicyStatement({
+        resources: [
+          `${coachAthleteTable.tableArn}/index/*`,
+          coachAthleteTable.tableArn,
+        ],
+        actions: ["dynamodb:PutItem"],
+      })
+    );
+
+    //add permissions to allow function to access cognito
+    writeFunction.addToRolePolicy(
+      new PolicyStatement({
+        resources: [`${props.userPoolArn}/*`, props.userPoolArn],
+        actions: ["cognito-idp:ListUsers"],
+      })
+    );
+
+    //we have to manually allow the read function to access the global seconday index
+    readFunction.addToRolePolicy(
       new PolicyStatement({
         resources: [
           `${coachAthleteTable.tableArn}/index/*`,
@@ -69,13 +99,12 @@ export class CreateCruxRouteCoachAthleteLambdaStack extends Stack {
           "dynamodb:Get*",
           "dynamodb:BatchGet*",
           "dynamodb:DescribeTable",
-          "dynamodb:PutItem",
         ],
       })
     );
 
     //add permissions to allow function to access cognito
-    writeFunction.addToRolePolicy(
+    readFunction.addToRolePolicy(
       new PolicyStatement({
         resources: [`${props.userPoolArn}/*`, props.userPoolArn],
         actions: ["cognito-idp:ListUsers"],
@@ -100,10 +129,21 @@ export class CreateCruxRouteCoachAthleteLambdaStack extends Stack {
       writeFunction
     );
 
+    const readIntegration = new HttpLambdaIntegration(
+      "ReadIntegration",
+      readFunction
+    );
+
     api.addRoutes({
       integration: writeIntegration,
       methods: [HttpMethod.POST],
       path: "/coachathletes",
+    });
+
+    api.addRoutes({
+      integration: readIntegration,
+      methods: [HttpMethod.GET],
+      path: "/coachathletes/{athleteId}",
     });
 
     new CfnOutput(this, "HttpApiUrl", { value: api.apiEndpoint });

@@ -8,10 +8,10 @@ const schema = {
   indexes: {
     primary: {
       hash: "coachId",
-      sort: "personId",
+      sort: "athleteId",
     },
     gs1: {
-      hash: "personId",
+      hash: "athleteId",
       sort: "coachId",
     },
   },
