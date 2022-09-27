@@ -33,7 +33,7 @@ export class AddTraingEventDialogComponent
   ) {
     super();
     this.trainingEventForm.controls['date'].setValue(data.date);
-    this.cognitoService.getUser().then((user: any) => {
+    this.cognitoService.getCurrentUser().then((user: any) => {
       this.user = user.attributes;
       console.log(this.user);
     });

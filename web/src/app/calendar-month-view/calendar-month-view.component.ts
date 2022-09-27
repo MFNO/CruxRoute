@@ -43,7 +43,7 @@ export class CalendarMonthViewComponent
   }
 
   ngOnInit(): void {
-    this.cognitoService.getUser().then((user: any) => {
+    this.cognitoService.getCurrentUser().then((user: any) => {
       this.user = user.attributes;
       this.fetchEvents();
     });

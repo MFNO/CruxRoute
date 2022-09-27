@@ -57,7 +57,7 @@ export class CognitoService {
     if (this.authenticationSubject.value) {
       return Promise.resolve(true);
     } else {
-      return this.getUser()
+      return this.getCurrentUser()
         .then((user: any) => {
           if (user) {
             return true;
@@ -71,7 +71,7 @@ export class CognitoService {
     }
   }
 
-  public getUser(): Promise<any> {
+  public getCurrentUser(): Promise<any> {
     return Auth.currentUserInfo();
   }
 

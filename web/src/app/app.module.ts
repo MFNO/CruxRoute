@@ -32,6 +32,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { AuthGuard } from './guards';
 import { BaseComponent } from './base/base.component';
 import { AtheleteOverviewComponent } from './athelete-overview/athelete-overview.component';
+import { AddCoachAthleteComponent } from './add-coach-athlete/add-coach-athlete.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { AtheleteOverviewComponent } from './athelete-overview/athelete-overview
     ProfileComponent,
     SignInComponent,
     AtheleteOverviewComponent,
+    AddCoachAthleteComponent,
   ],
   imports: [
     CommonModule,

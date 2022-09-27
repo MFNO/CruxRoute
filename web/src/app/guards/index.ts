@@ -31,7 +31,7 @@ export class AuthGuard implements CanActivate {
   checkUserLogin(route: ActivatedRouteSnapshot, url: any): Promise<boolean> {
     return this.cognitoService.isAuthenticated().then((success: boolean) => {
       if (success) {
-        this.cognitoService.getUser().then((user: any) => {
+        this.cognitoService.getCurrentUser().then((user: any) => {
           const role = user.attributes['custom:cruxRouteRole'];
           if (route.data['role'] && route.data['role'].indexOf(role) === -1) {
             this.router.navigate(['/calendar']);

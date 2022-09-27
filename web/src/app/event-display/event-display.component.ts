@@ -32,7 +32,7 @@ export class EventDisplayComponent
     private dialog: MatDialog
   ) {
     super();
-    this.cognitoService.getUser().then((user: any) => {
+    this.cognitoService.getCurrentUser().then((user: any) => {
       this.user = user.attributes;
     });
   }

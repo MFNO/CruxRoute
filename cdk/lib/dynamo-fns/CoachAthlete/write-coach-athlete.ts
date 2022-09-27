@@ -10,9 +10,10 @@ export const handler = async (
 ): Promise<APIGatewayProxyResultV2> => {
   const body = event.body;
   if (body) {
-    const events = await CoachAthlete.create(JSON.parse(body));
+    const test = JSON.parse(body);
+    //const coachAthlete = await CoachAthlete.create(JSON.parse(body));
     return {
-      body: JSON.stringify(events),
+      body: JSON.stringify(test),
       statusCode: 200,
     };
   }
