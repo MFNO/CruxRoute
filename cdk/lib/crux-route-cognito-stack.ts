@@ -18,6 +18,7 @@ interface CreateCruxRouteCognitoStackProps extends StackProps {
 export class CreateCruxRouteCognitoStack extends Stack {
   public readonly userPool: UserPool;
   public readonly userPoolClient: UserPoolClient;
+  public readonly userPoolArn: string;
 
   constructor(
     scope: Construct,
@@ -40,6 +41,8 @@ export class CreateCruxRouteCognitoStack extends Stack {
       },
       removalPolicy: RemovalPolicy.RETAIN,
     });
+
+    this.userPoolArn = this.userPool.userPoolArn;
 
     const uniquePrefix = `${props.cruxRouteEnv}-crux-route-users-domain-prefix`;
     const userPoolDomain = this.userPool.addDomain("default", {

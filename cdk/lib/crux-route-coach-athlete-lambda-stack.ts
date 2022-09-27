@@ -17,6 +17,7 @@ interface CreateCruxRouteCoachAthleteLambdaStackProps extends StackProps {
   readonly userPool: UserPool;
   readonly userPoolClient: UserPoolClient;
   readonly apiCorsAllowedOrigins: string[];
+  readonly userPoolArn: string;
 }
 
 export class CreateCruxRouteCoachAthleteLambdaStack extends Stack {
@@ -43,15 +44,15 @@ export class CreateCruxRouteCoachAthleteLambdaStack extends Stack {
       writeCapacity: 1,
     });
 
-    const writeFunction = new NodejsFunction(
-      this,
-      "WriteCoachAthleteFn",
-      {
-        architecture: Architecture.ARM_64,
-        entry:`${__dirname}/dynamo-fns/CoachAthlete/write-coach-athlete.ts`,
-        logRetention: RetentionDays.ONE_WEEK,
-      }
-    );
+    const writeFunction = new NodejsFunction(this, "WriteCoachAthleteFn", {
+      environment: {
+        userPoolId: props.userPool.userPoolId,
+        userPoolClientId: props.userPoolClient.userPoolClientId,
+      },
+      architecture: Architecture.ARM_64,
+      entry: `${__dirname}/dynamo-fns/CoachAthlete/write-coach-athlete.ts`,
+      logRetention: RetentionDays.ONE_WEEK,
+    });
 
     coachAthleteTable.grantWriteData(writeFunction);
 
@@ -69,6 +70,14 @@ export class CreateCruxRouteCoachAthleteLambdaStack extends Stack {
           "dynamodb:BatchGet*",
           "dynamodb:DescribeTable",
         ],
+      })
+    );
+
+    //add permissions to allow function to access cognito
+    writeFunction.addToRolePolicy(
+      new PolicyStatement({
+        resources: [`${props.userPoolArn}/*`, props.userPoolArn],
+        actions: ["cognito-idp:ListUsers"],
       })
     );
 

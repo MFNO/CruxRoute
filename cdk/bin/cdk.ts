@@ -36,6 +36,7 @@ new CreateCruxRouteTrainingEventLambdaStack(
 new CreateCruxRouteCoachAthleteLambdaStack(app, "devCoachAthleteLambdaStack", {
   userPool: devCognitoStack.userPool,
   userPoolClient: devCognitoStack.userPoolClient,
+  userPoolArn: devCognitoStack.userPoolArn,
   env: devEnvCruxRoute,
   stackName: "devCoachAthleteLambdaStack",
   apiCorsAllowedOrigins: ["http://localhost:4200"],
@@ -64,6 +65,7 @@ new CreateCruxRouteTrainingEventLambdaStack(
 new CreateCruxRouteCoachAthleteLambdaStack(app, "prodCoachAthleteLambdaStack", {
   userPool: prodCognitoStack.userPool,
   userPoolClient: prodCognitoStack.userPoolClient,
+  userPoolArn: prodCognitoStack.userPoolArn,
   env: prodEnvCruxRoute,
   stackName: "prodCoachAthleteLambdaStack",
   apiCorsAllowedOrigins: ["https://cruxroute.com"],
