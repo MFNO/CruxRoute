@@ -20,13 +20,13 @@ export class EventService {
   };
 
   getEvents(personId: string): Observable<TrainingEvent[]> {
-    return this.http.get<TrainingEvent[]>(this.url + '/events/' + personId);
+    return this.http.get<TrainingEvent[]>(`${this.url}/events/${personId}`);
   }
 
   postEvent(event: TrainingEvent): Observable<TrainingEvent> {
     return this.http
       .post<TrainingEvent>(
-        this.url + '/events',
+        `${this.url}/events`,
         JSON.stringify(event),
         this.httpOptions
       )

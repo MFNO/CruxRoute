@@ -143,7 +143,7 @@ export class CreateCruxRouteCoachAthleteLambdaStack extends Stack {
     api.addRoutes({
       integration: readIntegration,
       methods: [HttpMethod.GET],
-      path: "/coachathletes/{athleteId}",
+      path: "/coachathletes/{athleteId}/coach",
     });
 
     new CfnOutput(this, "HttpApiUrl", { value: api.apiEndpoint });

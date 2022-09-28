@@ -1,8 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { catchError, map, Observable, takeUntil } from 'rxjs';
+import { offset } from '@popperjs/core';
+import { catchError, ignoreElements, Observable, of, takeUntil } from 'rxjs';
 import { BaseComponent } from '../base/base.component';
 import { CoachAthleteService } from '../services/coach-athlete.service';
 import { CognitoService } from '../services/cognito.service';
+import { CoachAthlete } from '../shared/coach-athlete';
 
 @Component({
   selector: 'app-coach-overview',
@@ -14,11 +16,9 @@ export class CoachOverviewComponent
   implements OnInit, OnDestroy
 {
   errorObject = null;
-  $coach: Observable<any>;
+  $coach: Observable<CoachAthlete>;
+  $error: any;
   athleteId: string;
-  athleteMail: string;
-  coachId: string;
-  coachMail: string;
 
   constructor(
     private coachAthleteService: CoachAthleteService,
@@ -27,23 +27,20 @@ export class CoachOverviewComponent
     super();
   }
 
-  acceptInvitation(): void {
-    this.coachAthleteService
+  acceptInvitation(coachMail: string, athleteMail: string): void {
+    this.$coach = this.coachAthleteService
       .postCoachAthlete({
-        athleteEmail: this.athleteMail,
-        coachEmail: this.coachMail,
+        athleteMail: athleteMail,
+        coachMail: coachMail,
         linked: true,
       })
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe((resp) => {
-        console.log(resp);
-      });
+      .pipe(takeUntil(this.onDestroy$));
   }
 
-  declineInvitation(): void {
+  declineInvitation(coachMail: string, athleteMail: string): void {
     this.coachAthleteService.postCoachAthlete({
-      athleteEmail: this.athleteMail,
-      coachEmail: this.coachMail,
+      athleteMail: athleteMail,
+      coachMail: coachMail,
       linked: true,
     });
   }
@@ -53,24 +50,13 @@ export class CoachOverviewComponent
       .getCurrentUser()
       .then((user: any) => {
         this.athleteId = user.username;
-        this.athleteMail = user.attributes.email;
       })
       .then(() => {
-        this.$coach = this.coachAthleteService
-          .getCoachAthlete(this.athleteId)
-          .pipe(
-            map((x) => {
-              this.coachId = x.Username;
-              x.Attributes.forEach((attr) => {
-                if (attr.Name === 'email') {
-                  x.email = attr.Value;
-                  this.coachMail = attr.Value;
-                }
-              });
-              return x;
-            })
-          )
-          .pipe(catchError((err) => (this.errorObject = err)));
+        this.$coach = this.coachAthleteService.getCoachAthlete(this.athleteId);
+        this.$error = this.$coach.pipe(
+          ignoreElements(),
+          catchError((err) => of(err))
+        );
       });
   }
 }

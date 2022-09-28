@@ -6,7 +6,6 @@ import { retry, catchError } from 'rxjs/operators';
 
 import { environment } from 'src/environments/environment';
 import { CoachAthlete } from '../shared/coach-athlete';
-import { Coach } from '../shared/coach';
 
 @Injectable({
   providedIn: 'root',
@@ -21,16 +20,16 @@ export class CoachAthleteService {
     }),
   };
 
-  getCoachAthlete(athleteId: string): Observable<Coach> {
+  getCoachAthlete(athleteId: string): Observable<CoachAthlete> {
     return this.http
-      .get<any>(this.url + '/coachathletes/' + athleteId)
+      .get<CoachAthlete>(`${this.url}/coachathletes/${athleteId}/coach`)
       .pipe(retry(1), catchError(this.handleError));
   }
 
   postCoachAthlete(coachAthlete: CoachAthlete): Observable<CoachAthlete> {
     return this.http
       .post<CoachAthlete>(
-        this.url + '/coachathletes',
+        `${this.url}/coachathletes`,
         JSON.stringify(coachAthlete),
         this.httpOptions
       )

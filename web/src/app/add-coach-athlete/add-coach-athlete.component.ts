@@ -41,9 +41,9 @@ export class AddCoachAthleteComponent
 
     if (athleteMail && this.user.email) {
       const coachAthlete: CoachAthlete = {
-        coachEmail: this.user.email,
+        coachMail: this.user.email,
         linked: false,
-        athleteEmail: athleteMail,
+        athleteMail: athleteMail,
       };
       this.coachAthleteService
         .postCoachAthlete(coachAthlete)

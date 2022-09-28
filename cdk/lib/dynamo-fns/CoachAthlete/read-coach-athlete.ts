@@ -23,31 +23,13 @@ export const handler = async (
       { index: "gs1" }
     );
 
-    if (!coachAthleteResponse) {
-      return { body: "Error, resource not found", statusCode: 404 };
+    if (coachAthleteResponse) {
+      return {
+        body: JSON.stringify(coachAthleteResponse),
+        statusCode: 200,
+      };
     }
-
-    const client = new CognitoIdentityProviderClient({ region: "us-east-1" });
-    const command = new ListUsersCommand({
-      UserPoolId: userPoolId,
-    });
-
-    const cognitoResponse = await client.send(command);
-
-    const cognitoAthlete = cognitoResponse.Users?.find(
-      (user) => user.Username === coachAthleteResponse?.coachId
-    );
-
-    const response = {
-      ...cognitoAthlete,
-      linked: coachAthleteResponse?.linked,
-    };
-
-    return {
-      body: JSON.stringify(response),
-      statusCode: 200,
-    };
-  } else {
     return { body: "Error, resource not found", statusCode: 404 };
   }
+  return { body: "Error, incorrect request", statusCode: 400 };
 };

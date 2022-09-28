@@ -18,8 +18,8 @@ export const handler = async (
 
     const request = JSON.parse(body);
 
-    const athleteEmail = request.athleteEmail;
-    const coachEmail = request.coachEmail;
+    const athleteMail = request.athleteMail;
+    const coachMail = request.coachMail;
 
     const client = new CognitoIdentityProviderClient({ region: "us-east-1" });
     const command = new ListUsersCommand({
@@ -32,14 +32,14 @@ export const handler = async (
     const cognitoAthlete = response.Users?.find((user) =>
       user.Attributes?.some(
         (attribute) =>
-          attribute.Name === "email" && attribute.Value === athleteEmail
+          attribute.Name === "email" && attribute.Value === athleteMail
       )
     );
 
     const cognitoCoach = response.Users?.find((user) =>
       user.Attributes?.some(
         (attribute) =>
-          attribute.Name === "email" && attribute.Value === coachEmail
+          attribute.Name === "email" && attribute.Value === coachMail
       )
     );
 
@@ -48,15 +48,15 @@ export const handler = async (
       cognitoCoach &&
       cognitoAthlete.Username &&
       cognitoCoach.Username &&
-      coachEmail &&
-      athleteEmail
+      coachMail &&
+      athleteMail
     ) {
       const coachAthlete = await CoachAthlete.upsert({
         athleteId: cognitoAthlete?.Username,
         coachId: cognitoCoach?.Username,
         linked: request.linked,
-        athleteMail: athleteEmail,
-        coachMail: coachEmail,
+        athleteMail: athleteMail,
+        coachMail: coachMail,
       });
 
       return {

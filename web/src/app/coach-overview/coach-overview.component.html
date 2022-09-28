@@ -1,41 +1,47 @@
-<ng-template #loadingOrError>
-  <ng-container *ngIf="errorObject; else loading">
-    <div class="row justify-content-center">
-      <p>
-        You currently have no coach assigned to you, a coach can invite you
-        should they wish to do so.
-      </p>
-    </div>
-  </ng-container>
-  <ng-template #loading>
-    <div class="row justify-content-center my-5">
-      <mat-spinner></mat-spinner>
-    </div>
-  </ng-template>
-</ng-template>
-
 <div class="row justify-content-center my-5">
   <div class="col-6">
-    <div *ngIf="$coach | async as coach; else loadingOrError">
-      <div *ngIf="!coach.linked" class="row justify-content-center">
-        <p>Coach:</p>
-        <p>
-          <b>{{ coach.email }}</b>
-        </p>
-        <p>has invited you to become one of their athletes!</p>
-        <div class="button-container">
-          <button mat-raised-button (click)="acceptInvitation()">
-            Accept invitation
-          </button>
-          <button mat-raised-button (click)="declineInvitation()">
-            Decline invitation
-          </button>
+    <ng-container
+      *ngIf="{ coach: $coach | async, error: $error | async } as vm"
+    >
+      <div *ngIf="!vm.error && vm.coach as coach; else loading">
+        <div *ngIf="!vm.coach.linked" class="row justify-content-center">
+          <p>Coach:</p>
+          <p>
+            <b>{{ coach.coachMail }}</b>
+          </p>
+          <p>has invited you to become one of their athletes!</p>
+          <div class="button-container">
+            <button
+              mat-raised-button
+              (click)="acceptInvitation(coach.coachMail, coach.athleteMail)"
+            >
+              Accept invitation
+            </button>
+            <button
+              mat-raised-button
+              (click)="declineInvitation(coach.coachMail, coach.athleteMail)"
+            >
+              Decline invitation
+            </button>
+          </div>
+        </div>
+        <div *ngIf="vm.coach.linked" class="row justify-content-center">
+          <p>Your coach is:</p>
+          <p>
+            <b>{{ coach.coachMail }}</b>
+          </p>
         </div>
       </div>
-      <div *ngIf="coach.linked" class="row justify-content-center">
-        <p>Your coach is:</p>
-        <p>{{ coach.email }}</p>
+      <div *ngIf="vm.error as error">
+        <p>You are currently not assigned to a coach!</p>
       </div>
-    </div>
+      <ng-template #loading>
+        <div *ngIf="!vm.error">
+          <div class="row justify-content-center my-5">
+            <mat-spinner></mat-spinner>
+          </div>
+        </div>
+      </ng-template>
+    </ng-container>
   </div>
 </div>

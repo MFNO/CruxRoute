@@ -1,5 +1,7 @@
 export interface CoachAthlete {
-  athleteEmail: string;
-  coachEmail: string;
+  athleteMail: string;
+  coachMail: string;
+  athleteId?: string;
+  coachId?: string;
   linked: boolean;
 }
