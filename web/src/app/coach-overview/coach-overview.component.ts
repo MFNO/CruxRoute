@@ -1,10 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { takeUntil } from 'rxjs';
+import { catchError, map, Observable, takeUntil } from 'rxjs';
 import { BaseComponent } from '../base/base.component';
 import { CoachAthleteService } from '../services/coach-athlete.service';
 import { CognitoService } from '../services/cognito.service';
-import { Coach } from '../shared/coach';
-import { Attribute } from '../shared/cognitoUser';
 
 @Component({
   selector: 'app-coach-overview',
@@ -15,10 +13,12 @@ export class CoachOverviewComponent
   extends BaseComponent
   implements OnInit, OnDestroy
 {
-  coach: Coach;
+  errorObject = null;
+  $coach: Observable<any>;
   athleteId: string;
-  isLoading: boolean = true;
-  coachEmail: string;
+  athleteMail: string;
+  coachId: string;
+  coachMail: string;
 
   constructor(
     private coachAthleteService: CoachAthleteService,
@@ -27,27 +27,50 @@ export class CoachOverviewComponent
     super();
   }
 
+  acceptInvitation(): void {
+    this.coachAthleteService
+      .postCoachAthlete({
+        athleteEmail: this.athleteMail,
+        coachEmail: this.coachMail,
+        linked: true,
+      })
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe((resp) => {
+        console.log(resp);
+      });
+  }
+
+  declineInvitation(): void {
+    this.coachAthleteService.postCoachAthlete({
+      athleteEmail: this.athleteMail,
+      coachEmail: this.coachMail,
+      linked: true,
+    });
+  }
+
   ngOnInit(): void {
     this.cognitoService
       .getCurrentUser()
       .then((user: any) => {
-        this.athleteId = user.attributes['sub'];
-        console.log(this.athleteId);
+        this.athleteId = user.username;
+        this.athleteMail = user.attributes.email;
       })
       .then(() => {
-        this.coachAthleteService
+        this.$coach = this.coachAthleteService
           .getCoachAthlete(this.athleteId)
-          .pipe(takeUntil(this.onDestroy$))
-          .subscribe((coach: Coach) => {
-            this.coach = coach;
-            this.isLoading = false;
-            let email = coach.Attributes.find(
-              (attribute) => attribute.Name === 'email'
-            );
-            if (email) {
-              this.coachEmail = email?.Value;
-            }
-          });
+          .pipe(
+            map((x) => {
+              this.coachId = x.Username;
+              x.Attributes.forEach((attr) => {
+                if (attr.Name === 'email') {
+                  x.email = attr.Value;
+                  this.coachMail = attr.Value;
+                }
+              });
+              return x;
+            })
+          )
+          .pipe(catchError((err) => (this.errorObject = err)));
       });
   }
 }

@@ -6,6 +6,7 @@ import { retry, catchError } from 'rxjs/operators';
 
 import { environment } from 'src/environments/environment';
 import { CoachAthlete } from '../shared/coach-athlete';
+import { Coach } from '../shared/coach';
 
 @Injectable({
   providedIn: 'root',
@@ -20,7 +21,7 @@ export class CoachAthleteService {
     }),
   };
 
-  getCoachAthlete(athleteId: string): Observable<any> {
+  getCoachAthlete(athleteId: string): Observable<Coach> {
     return this.http
       .get<any>(this.url + '/coachathletes/' + athleteId)
       .pipe(retry(1), catchError(this.handleError));
@@ -45,7 +46,6 @@ export class CoachAthleteService {
       // Get server-side error
       errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
     }
-    window.alert(errorMessage);
     return throwError(() => {
       return errorMessage;
     });

@@ -19,24 +19,24 @@ const schema = {
     TrainingEvent: {
       type: {
         required: true,
-        type: "string",
+        type: String,
         value: "TrainingEvent",
       },
       id: {
         required: true,
-        type: "string",
+        type: String,
       },
       personId: {
         required: true,
-        type: "string",
+        type: String,
       },
       date: {
         required: true,
-        type: "string",
+        type: String,
       },
       description: {
         required: true,
-        type: "string",
+        type: String,
       },
     },
   },

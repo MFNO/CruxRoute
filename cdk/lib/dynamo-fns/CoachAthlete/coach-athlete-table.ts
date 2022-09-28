@@ -19,20 +19,28 @@ const schema = {
     CoachAthlete: {
       type: {
         required: true,
-        type: "string",
+        type: String,
         value: "CoachAthlete",
       },
       athleteId: {
         required: true,
-        type: "string",
+        type: String,
       },
       coachId: {
         required: true,
-        type: "string",
+        type: String,
+      },
+      athleteMail: {
+        required: true,
+        type: String,
+      },
+      coachMail: {
+        required: true,
+        type: String,
       },
       linked: {
         required: true,
-        type: "string",
+        type: Boolean,
       },
     },
   },

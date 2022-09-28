@@ -23,6 +23,10 @@ export const handler = async (
       { index: "gs1" }
     );
 
+    if (!coachAthleteResponse) {
+      return { body: "Error, resource not found", statusCode: 404 };
+    }
+
     const client = new CognitoIdentityProviderClient({ region: "us-east-1" });
     const command = new ListUsersCommand({
       UserPoolId: userPoolId,
@@ -44,6 +48,6 @@ export const handler = async (
       statusCode: 200,
     };
   } else {
-    return { body: "Error, resource not found", statusCode: 400 };
+    return { body: "Error, resource not found", statusCode: 404 };
   }
 };

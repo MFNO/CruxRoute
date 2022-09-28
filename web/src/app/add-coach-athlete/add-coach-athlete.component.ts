@@ -38,11 +38,10 @@ export class AddCoachAthleteComponent
   addCoachAthlete(): void {
     this.isUpdating = true;
     const athleteMail = this.coachAthleteForm.get('athleteMail')!.value;
-    const coachId = this.user.sub;
 
-    if (athleteMail && coachId) {
+    if (athleteMail && this.user.email) {
       const coachAthlete: CoachAthlete = {
-        coachId: coachId,
+        coachEmail: this.user.email,
         linked: false,
         athleteEmail: athleteMail,
       };
