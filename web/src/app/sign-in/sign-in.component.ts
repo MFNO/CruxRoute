@@ -6,7 +6,7 @@ import { IUser, CognitoService } from '../services/cognito.service';
 @Component({
   selector: 'app-sign-in',
   templateUrl: './sign-in.component.html',
-  styleUrls: ['./sign-in.component.scss'],
+  styleUrls: ['./sign-in.component.scss', '../shared/shared.scss'],
 })
 export class SignInComponent {
   loading: boolean;

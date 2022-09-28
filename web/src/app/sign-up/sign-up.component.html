@@ -29,10 +29,11 @@
               />
               <button
                 type="button"
-                class="btn btn-outline-secondary"
+                class="eye-icon-btn btn btn-outline-secondary"
                 (click)="user.showPassword = !user.showPassword"
               >
                 <mat-icon
+                  class="eye-icon"
                   aria-hidden="false"
                   [attr.fontIcon]="
                     !user.showPassword ? 'visibility' : 'visibility_off'
