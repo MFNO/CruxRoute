@@ -20,9 +20,15 @@ export class CoachAthleteService {
     }),
   };
 
-  getCoachAthlete(athleteId: string): Observable<CoachAthlete> {
+  getCoachByAthlete(athleteId: string): Observable<CoachAthlete> {
     return this.http
       .get<CoachAthlete>(`${this.url}/coachathletes/${athleteId}/coach`)
+      .pipe(retry(1), catchError(this.handleError));
+  }
+
+  getAthletesByCoach(coachId: string): Observable<CoachAthlete[]> {
+    return this.http
+      .get<CoachAthlete[]>(`${this.url}/coachathletes/${coachId}/athletes`)
       .pipe(retry(1), catchError(this.handleError));
   }
 

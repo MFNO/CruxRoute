@@ -52,7 +52,9 @@ export class CoachOverviewComponent
         this.athleteId = user.username;
       })
       .then(() => {
-        this.$coach = this.coachAthleteService.getCoachAthlete(this.athleteId);
+        this.$coach = this.coachAthleteService.getCoachByAthlete(
+          this.athleteId
+        );
         this.$error = this.$coach.pipe(
           ignoreElements(),
           catchError((err) => of(err))

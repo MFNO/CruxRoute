@@ -12,16 +12,11 @@ import { CoachAthlete } from "./coach-athlete-table";
 export const handler = async (
   event: APIGatewayProxyEventV2
 ): Promise<APIGatewayProxyResultV2> => {
-  const userPoolId = process.env.userPoolId;
-
   if (event.pathParameters) {
-    const athleteId = event.pathParameters.athleteId;
-    const coachAthleteResponse = await CoachAthlete.get(
-      {
-        athleteId: athleteId,
-      },
-      { index: "gs1" }
-    );
+    const coachId = event.pathParameters.coachId;
+    const coachAthleteResponse = await CoachAthlete.find({
+      coachId: coachId,
+    });
 
     if (coachAthleteResponse) {
       return {

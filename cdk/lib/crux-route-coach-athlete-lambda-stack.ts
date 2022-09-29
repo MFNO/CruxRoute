@@ -54,18 +54,37 @@ export class CreateCruxRouteCoachAthleteLambdaStack extends Stack {
       logRetention: RetentionDays.ONE_WEEK,
     });
 
-    const readFunction = new NodejsFunction(this, "ReadCoachAthleteFn", {
-      environment: {
-        userPoolId: props.userPool.userPoolId,
-        userPoolClientId: props.userPoolClient.userPoolClientId,
-      },
-      architecture: Architecture.ARM_64,
-      entry: `${__dirname}/dynamo-fns/CoachAthlete/read-coach-athlete.ts`,
-      logRetention: RetentionDays.ONE_WEEK,
-    });
+    const readCoachByAthleteFunction = new NodejsFunction(
+      this,
+      "ReadCoachByAthleteFn",
+      {
+        environment: {
+          userPoolId: props.userPool.userPoolId,
+          userPoolClientId: props.userPoolClient.userPoolClientId,
+        },
+        architecture: Architecture.ARM_64,
+        entry: `${__dirname}/dynamo-fns/CoachAthlete/read-coach-by-athlete.ts`,
+        logRetention: RetentionDays.ONE_WEEK,
+      }
+    );
+
+    const readAthletesByCoachFunction = new NodejsFunction(
+      this,
+      "ReadAthletesByCoachFn",
+      {
+        environment: {
+          userPoolId: props.userPool.userPoolId,
+          userPoolClientId: props.userPoolClient.userPoolClientId,
+        },
+        architecture: Architecture.ARM_64,
+        entry: `${__dirname}/dynamo-fns/CoachAthlete/read-athletes-by-coach.ts`,
+        logRetention: RetentionDays.ONE_WEEK,
+      }
+    );
 
     coachAthleteTable.grantWriteData(writeFunction);
-    coachAthleteTable.grantReadData(readFunction);
+    coachAthleteTable.grantReadData(readCoachByAthleteFunction);
+    coachAthleteTable.grantReadData(readAthletesByCoachFunction);
 
     //we have to manually allow the read function to access the global seconday index
     writeFunction.addToRolePolicy(
@@ -87,7 +106,7 @@ export class CreateCruxRouteCoachAthleteLambdaStack extends Stack {
     );
 
     //we have to manually allow the read function to access the global seconday index
-    readFunction.addToRolePolicy(
+    readCoachByAthleteFunction.addToRolePolicy(
       new PolicyStatement({
         resources: [
           `${coachAthleteTable.tableArn}/index/*`,
@@ -104,7 +123,7 @@ export class CreateCruxRouteCoachAthleteLambdaStack extends Stack {
     );
 
     //add permissions to allow function to access cognito
-    readFunction.addToRolePolicy(
+    readCoachByAthleteFunction.addToRolePolicy(
       new PolicyStatement({
         resources: [`${props.userPoolArn}/*`, props.userPoolArn],
         actions: ["cognito-idp:ListUsers"],
@@ -129,9 +148,14 @@ export class CreateCruxRouteCoachAthleteLambdaStack extends Stack {
       writeFunction
     );
 
-    const readIntegration = new HttpLambdaIntegration(
-      "ReadIntegration",
-      readFunction
+    const readCoachByAthleteIntegration = new HttpLambdaIntegration(
+      "ReadCoachByAthleteIntegration",
+      readCoachByAthleteFunction
+    );
+
+    const readAthletesByCoachIntegration = new HttpLambdaIntegration(
+      "ReadAthletesByCoachIntegration",
+      readAthletesByCoachFunction
     );
 
     api.addRoutes({
@@ -141,9 +165,15 @@ export class CreateCruxRouteCoachAthleteLambdaStack extends Stack {
     });
 
     api.addRoutes({
-      integration: readIntegration,
+      integration: readCoachByAthleteIntegration,
       methods: [HttpMethod.GET],
       path: "/coachathletes/{athleteId}/coach",
+    });
+
+    api.addRoutes({
+      integration: readAthletesByCoachIntegration,
+      methods: [HttpMethod.GET],
+      path: "/coachathletes/{coachId}/athletes",
     });
 
     new CfnOutput(this, "HttpApiUrl", { value: api.apiEndpoint });

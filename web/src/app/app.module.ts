@@ -29,11 +29,9 @@ import { ProfileComponent } from './profile/profile.component';
 import { SignInComponent } from './sign-in/sign-in.component';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatMenuModule } from '@angular/material/menu';
-import { AuthGuard } from './guards';
-import { BaseComponent } from './base/base.component';
 import { athleteOverviewComponent } from './athlete-overview/athlete-overview.component';
-import { AddCoachAthleteComponent } from './add-coach-athlete/add-coach-athlete.component';
 import { CoachOverviewComponent } from './coach-overview/coach-overview.component';
+import { MatTableModule } from '@angular/material/table';
 
 @NgModule({
   declarations: [
@@ -46,7 +44,6 @@ import { CoachOverviewComponent } from './coach-overview/coach-overview.componen
     ProfileComponent,
     SignInComponent,
     athleteOverviewComponent,
-    AddCoachAthleteComponent,
     CoachOverviewComponent,
   ],
   imports: [
@@ -73,6 +70,7 @@ import { CoachOverviewComponent } from './coach-overview/coach-overview.componen
     MatProgressSpinnerModule,
     MatSidenavModule,
     MatMenuModule,
+    MatTableModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
